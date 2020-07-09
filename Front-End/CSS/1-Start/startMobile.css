@@ -1,0 +1,303 @@
+.hiddenOnMobile{
+  display: none;
+  position: absolute;
+}
+
+.wrapper{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #444;
+    text-align: center;
+    overflow:hidden;
+    z-index: 10;
+}
+
+
+
+.slideContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+
+}
+.carousel {
+  width: 100%;
+  height: 50vh;
+
+
+  border-radius: 2px;
+  background: #fff;
+  /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1); */
+  margin: 0;
+  padding: 0;
+}
+.slider {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.slider div {
+  flex-basis: 100%;
+  justify-content: center;
+  align-items:   center;
+  display: flex;
+  font-size: 20px;
+  height: inherit;
+  width: 100vw;
+
+
+}
+.slider div a{
+  height: inherit;
+}
+.slider div a img{
+  position:relative;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: inherit;
+  overflow: hidden;
+
+}
+.slider div span{
+  position: absolute;
+  z-index: 3;
+  display: block;
+  color: #fff !important;
+  margin-left:4%;
+  margin-top: 10%;
+  width: 80%;
+  height: 20%;
+  text-align: right;
+}
+.slider div span h2{
+  font-size: 3vh;
+  color: #fff;
+  display: inline-block;
+  background-color: rgba(123, 123, 123, 0.5);
+  padding: 5px 15px;
+  margin-bottom: 5px;
+
+}
+.slider div span p{
+  display: inline-block;
+  background-color: rgba(123, 123, 123, 0.5);
+  padding: 5px 15px;
+  font-size: 2vh;
+  color: #fff;
+}
+.slider div span span{
+  text-align: center;
+}
+
+.left, .right {
+  position: absolute;
+  top: 38%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding: 15px;
+}
+.arrow i {
+  font-size: 25px;
+  -webkit-user-select: none;
+  color: #ddd;
+}
+.left {
+  left: 1px;
+}
+.right {
+  right: 1px;
+}
+.control{
+  display: inline-block;
+}
+.control ul {
+  list-style: none;
+  display: flex;
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  transform: translate(-50%);
+  z-index: 6;
+}
+.control ul li {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  margin: 10px;
+  cursor: pointer;
+  z-index: 6;
+}
+.control ul li.selected {
+  background: #333;
+}
+
+.mottoBanner{
+  height: 20vh;
+  width: 100%;
+  border-top: 3px solid tomato;
+  padding-top: 6px;
+  background: #fff;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mottoBanner span{
+  font-size: 3.5vh;
+  font-style: : italic;
+  font-family: cursive;
+
+}
+
+.newsContainer{
+  display: flex;
+  overflow: visible;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+
+  position: relative;
+
+
+}
+
+.newsContainer div{
+  width: 100%;
+
+}
+
+
+.newsList{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  width: 66%;
+  margin: 0 auto;
+  position: relative;
+  list-style-type: none;
+  text-decoration: none;
+  text-align: center;
+}
+
+.newsList li{
+  width: 250;
+  margin: 25px 0;
+}
+
+.newsList li img{
+  width: 250px;
+  height: 200px;
+}
+
+.newsList li span{
+  width: 103%;
+  text-align: left;
+  padding: 5% 10%;
+  background: #eee;
+  display: block;
+
+}
+
+.navArrows{
+  height: 40px;
+  width: 100%;
+  margin-bottom: 100px;
+  position: relative;
+}
+.navArrows div{
+  width: 8%;
+
+  display: flex;
+  position: absolute;
+  right: 15%;
+
+}
+.navArrows div button{
+  height: 100%;
+  width: 100%;
+  background: tomato;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  margin-right: 1.5px;
+  padding: 3px 8px;
+
+}
+
+
+.navArrows div button a{
+  color: #fff;
+  text-decoration: none;
+
+}
+
+.navArrows div button a:active{
+  text-decoration: none;
+}
+
+
+/***************************/
+
+/********Pagination*********/
+
+
+
+.pagination{
+
+    margin-top: 2em;
+
+}
+
+
+
+.pagination ul{
+
+    display:flex;
+
+    flex-direction: row;
+
+    justify-content: center;
+
+    list-style-type: none;
+
+}
+
+
+
+.pagination ul li{
+
+    padding: 1em;
+
+
+
+}
+
+
+
+.pagination ul li a{
+
+    text-decoration: none;
+
+    color:black;
+
+    display:block;
+
+}
+
+
+.pagination ul li a.active{
+  color: tomato;
+}

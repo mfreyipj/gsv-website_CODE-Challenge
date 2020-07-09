@@ -1,0 +1,138 @@
+.hiddenOnMobile{
+  display: none;
+  position: absolute;
+}
+
+.wrapper h3{
+  text-align: center;
+  color: #555;
+  margin: 5vh 20vw 3vh 0;
+}
+.groupImageContainer{
+    width: 80vw;
+    margin: 5vh auto;
+    position: relative;
+    text-align: center;
+}
+.groupImageContainer h2{
+    padding: 2vh;
+    font-size: 3vh
+}
+
+#groupImage{
+    width: 80%;
+    margin: 0 10%;
+    position: relative;
+
+}
+.headingLandingPage{
+    width: 75vw;
+    margin: 0 auto;
+    margin-top: 3vh;
+    margin-left: 20vw;
+
+}
+
+
+.nVorstellung{
+    width: 90%;
+    margin: 0 5%;
+    position: relative;
+
+
+
+}
+
+.vorstellungContent{
+
+    width: 85%;
+    margin: 10% 0 40px 25px;
+    min-height: 20vh;
+    position: relative;
+    overflow: hidden;
+
+    border: 1px solid rgba(150,150,150,0.3);
+}
+
+.vorstellungContent span{
+    padding-top: 5%;
+    text-align: center;
+    padding-bottom: 1%;
+
+
+}
+
+.vorstellungContent  h2{
+    padding-top: 5%;
+    text-align: center;
+    padding-bottom: 1%;
+    font-size: 2.4vh;
+}
+
+
+.vorstellungContent p{
+    font-size: 1.8vh;
+    margin: 7% 15%;
+    line-height: 150%;
+
+
+}
+
+.schuelersprecherVorstellung{
+    width: 80vw;
+    margin: auto;
+}
+.schuelersprecherVorstellung h3{
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.schuelersprecherListe{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style-type: none;
+    color: #444;
+
+    padding: 0;
+
+}
+
+.schuelersprecherListe h4{
+    text-align: center;
+    margin-bottom: 25px;
+}
+.schuelersprecherContainer{
+    display: flex;
+    flex-direction: row;
+    height: 30vh;
+    margin-bottom: 225px;
+
+}
+.schuelersprecherImage{
+    width: 30vw;
+    height: 100%;
+
+}
+
+
+
+
+.schuelersprecherBeschreibung{
+    position: relative;
+    width: 40vw;
+    margin: 0 0 0 10vw;
+    height: 40vh;
+    line-height: 150%;
+    font-size: 1.8vh;
+
+}
+
+.schuelerSprecherBeschreibung h3{
+
+}
+
+.schuelersprecherBeschreibung p span{
+    color: tomato;
+
+}

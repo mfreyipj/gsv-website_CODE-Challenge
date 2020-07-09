@@ -1,0 +1,67 @@
+tr:nth-child(even) {background-color: #f2f2f2;}
+.table-posts{
+  width: 100%;
+}
+.table-posts table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow:scroll;
+}
+
+.table-posts th, td{
+  padding: 15px 5px;
+}
+
+.side-nav{
+  border-right: 1px solid #444;
+  width: 25%;
+}
+.side-nav-list{
+  list-style-type: none;
+  text-decoration: none;
+}
+.logonav{
+  margin-top: 2vh;
+}
+nav ul li{
+      margin: 2vh 16px 0vh 10px;
+}
+#userMenuListItem{
+  margin: 1vh 1vw;
+}
+#userMenuButton{
+  border-radius: 50%;
+  width: 6vh;
+  height: 6vh;
+  background-color: white;
+  border: none;
+  color: #444;
+
+}
+.divUserMenu{
+
+  height: 20em;
+  background-color: white;
+  color: #444;
+  display:none;
+  position: absolute;
+  width: 10em;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10;
+  margin: 0;
+  right: 0;
+}
+.divUserMenu ul{
+  color: #444;
+  display:flex;
+  flex-direction: column;
+
+}
+.divUserMenu ul li{
+  color: #444;
+}
+.show{
+  display: inline-block;
+
+
+}

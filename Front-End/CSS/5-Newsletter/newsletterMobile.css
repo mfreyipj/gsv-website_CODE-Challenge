@@ -1,0 +1,50 @@
+/* Styling des Wrapper */
+.wrapper{
+    width: 66%;
+    margin: 15vh auto;
+    padding: 0;
+
+    color: #444;
+    height: 59.2vh;
+    font-size: 15px;
+}
+
+
+.email-box{
+  display:flex;
+  height: 5vh;
+  margin-top: 5vh;
+}
+
+.email-box i{
+  display:none;
+  position: absolute;
+}
+
+.input, .submit{
+  border:none;
+  outline: none;
+}
+
+.email-box .input{
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 1px solid #999;
+  color: #444;
+  font-size: 15px;
+}
+ .submit{
+  background: #ff6347;
+  border-color: transparent;
+  color: white;
+  letter-spacing: 2px;
+  height: 40px;
+  width: 200px;
+
+}
+
+.email-box .submit:hover{
+  background-color: #F03B1A;
+  cursor: pointer;
+}

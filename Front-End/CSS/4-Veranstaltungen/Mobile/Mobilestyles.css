@@ -1,0 +1,181 @@
+
+/***************************/
+/*********Content***********/
+
+.email-box{
+  display:flex;
+  justify-content: center;
+  height: 5vh;
+  margin-top: 5vh;
+}
+
+.email-box i{
+  background: #ff6347;
+  width: 5vh;
+  color: #fff;
+  line-height: 5vh;
+}
+
+.input, .submit{
+  border:none;
+  outline: none;
+}
+
+.email-box .input{
+  width: 20vw;
+  padding: 0 1em;
+}
+.email-box .submit{
+  background: #ff6347;
+  color: #fff;
+  padding: 2px 15px;
+  text-align: center;
+  align-items: center;
+}
+
+.email-box .submit:hover{
+  background-color: #F03B1A;
+  cursor: pointer;
+}
+
+
+/*Styling des Wrappers*/
+.wrapper{
+    padding-left:1em;
+    margin-left: 1.5em;
+    margin-top:5em;
+    width:80%;
+}
+
+/*Styling des Timerfensters*/
+#timermobile{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size:0.8em;
+    margin-top:8em;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    padding: 1em 1.5em 1.5em 16px;
+    text-align: center;
+    margin-bottom: 6em;
+
+}
+#timerdesktop{
+    display: none;
+    position: absolute;
+}
+.timerbanner{
+    display: none;
+    position: absolute;
+}
+
+/*Flex-Container für Inhalt*/
+.content-container{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+/*Festlegung als versteckt*/
+.hidden{
+    display:none;
+}
+
+
+
+/*Container für die beiden Buttons*/
+.Auswahlcontainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+/*Button-Styling*/
+.categorychooser{
+    text-align: center;
+    padding: 4em 0.4em;
+    margin: 0.3em;
+    background: white;
+    color: #555;
+    outline: none;
+    border: 1px solid rgba(150,150,150,0.2);
+    margin-top: 0.1em;
+    margin-bottom: 0.8em;
+    transition:     background-color 250ms ease-out;
+    border-radius: 0.8em;
+
+}
+
+/*Hovereffekt für die Buttons*/
+.categorychooser:hover{
+   background-color: rgba(150,150,150,0.1);
+}
+
+/*Styling ausgewählter Button*/
+.categorychooser:active{
+   background-color: rgba(150,150,150,0.1);
+}
+
+/*Styling jedes einzelnen Reports*/
+.report{
+    margin-bottom: 2em;
+}
+
+/*Bild zum Report*/
+.picturereport{
+    width:100%;
+    margin-top: 1em;
+}
+
+/*Weiterlesen-Link*/
+.readmore{
+    text-decoration: none;
+    color:tomato;
+    font-size:0.9em;
+
+}
+
+
+.sidenav{
+    display:none;
+    position: absolute;
+}
+#desktopside{
+    display:none;
+    position: absolute;
+}
+.wrapperdesktopcontent{
+    display: none;
+    position: absolute;
+}
+
+.socialMedia{
+    display: none;
+    position: absolute;
+}
+
+
+/***************************/
+/********Pagination*********/
+
+.pagination{
+    margin-top: 2em;
+}
+
+.pagination ul{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.pagination ul li{
+    padding: 1em;
+
+}
+
+.pagination ul li a{
+    text-decoration: none;
+    color:black;
+    display:block;
+}

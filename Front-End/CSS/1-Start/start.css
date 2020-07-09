@@ -1,0 +1,245 @@
+.wrapper{
+    width: 100%;
+    text-align: center;
+    color: #444;
+    padding: 0;
+    margin: 0;
+    overflow:hidden;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+
+.slideContainer {
+  width: 100vw;
+  display: flex;
+  padding: 0;
+  margin: 0;
+
+}
+.carousel {
+  width: 100vw;
+  height: 91.4vh;
+  border-radius: 2px;
+  background: #fff;
+  /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1); */
+  margin: 0;
+  padding: 0;
+}
+.slider {
+  display: flex;
+  height: 100%;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+.slider div {
+
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 20px;
+  height: inherit;
+}
+.slider div img{
+  position: relative  ;
+  margin: 0;
+  padding: 0;
+  height: 92vh;
+  width: 100vw;
+
+
+}
+.slider div span{
+  position: absolute;
+  z-index: 3;
+  display: block;
+  color: #fff;
+  margin-left:5%;
+  margin-top: 5%;
+  width: 80%;
+  height: 20%;
+  text-align: right;
+}
+.slider div span h2{
+  display: inline-block;
+  background-color: rgba(123, 123, 123, 0.6);
+  padding: 10px 20px;
+}
+.slider div span p{
+  display: inline-block;
+  background-color: rgba(123, 123, 123, 0.6);
+  padding: 10px 20px;
+  font-size: 13px;
+}
+
+.left, .right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.arrow i {
+  font-size: 70px;
+  -webkit-user-select: none;
+  color: #ddd;
+}
+.left {
+  left: 10px;
+}
+.right {
+  right: 10px;
+}
+.control{
+  display: inline-block;
+}
+.control ul {
+  list-style: none;
+  display: flex;
+  position: absolute;
+  bottom: 2%;
+  left: 51%;
+  margin: 0;
+  padding: 0;
+  transform: translate(-50%);
+  z-index: 6;
+}
+.control ul li {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  margin: 10px;
+  cursor: pointer;
+  z-index: 6;
+}
+.control ul li.selected {
+  background: #333;
+}
+
+.mottoBanner{
+  height: 20vh;
+  width: 100%;
+  border-top: 3px solid tomato;
+  padding-top: 6px;
+  background: #fff;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mottoBanner span{
+  font-size: 3.5vh;
+  font-style: : italic;
+  font-family: cursive;
+
+}
+
+.newsContainer{
+  width: 100%;
+
+
+}
+
+
+
+.newsList{
+  display: flex;
+  justify-content:flex-start;
+  flex-direction: row;
+  width: 100%;
+  position: relative;
+  list-style-type: none;
+  text-decoration: none;
+  text-align: center;
+
+}
+
+.newsList li{
+    width: 18%;
+    margin: 0 3.5%;
+}
+
+.newsList li img{
+  width: 100% !important;
+  height: 200px !important;
+}
+
+.newsList li span{
+  width: 100%;
+  text-align: left;
+  padding: 5% 10%;
+  background: #eee;
+  display: block
+}
+.newsList li h4{
+  height: 30px;
+}
+
+.post{
+  height: 50px;
+}
+
+
+/********Pagination*********/
+
+
+
+.pagination{
+
+    margin-top: 2em;
+
+}
+
+
+
+.pagination ul{
+
+    display:flex;
+
+    flex-direction: row;
+
+    justify-content: center;
+
+    list-style-type: none;
+
+}
+
+
+
+.pagination ul li{
+
+    padding: 1em;
+
+
+
+}
+
+
+
+.pagination ul li a{
+
+    text-decoration: none;
+
+    color:black;
+
+    display:block;
+
+}
+.pagination ul li a:hover{
+
+    text-decoration: none;
+
+    color:tomato;
+
+    display:block;
+
+}
+
+.active{
+  color: tomato !important;
+}

@@ -1,0 +1,12 @@
+.wrapper{
+  width: 100%;
+  margin: auto;
+}
+img{
+  width: 100px;
+  height: 30px;
+}
+
+.alert{
+  padding: 1px;
+}
