@@ -10,31 +10,79 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/adminstyles.css">
+    <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/weirdflex.css">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg" role="navigation">
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="Blog.php" target:"_blank">Home</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Feature</a></li>
-        </ul>
-        <form class="navbar-form navbar-right form-inline" action="Blog.php" method="get">
-          <div class="form-group">
-            <input type="text" class="form-control" name="Search" value="" placeholder="Search">
-            <button type="submit" class="btn btn-default" name="SearchButton">Go</button>
-          </div>
-        </form>
-      </div>
+
+    <!-- -------------------------------------- navbar top -------------------------------------- -->
+          <!--- In this container, the navigation bar at the top of every admin panel page is defined.
+
+                On mobile devices, the navbar consist of three main elements -
+                the menu button (also called hamburger button), the page heading and the logo (from left to right).
+
+                On the desktop the navigation bar consists of the gsv logo in the top left corner,
+                a list of links to all user-end pages and a user-icon that activates a dropdown when clicked.
+          -->
+
+        <nav>
 
 
-    </nav>
+            <!--(mobile: container of the dropdown menu; of of three navelements(dropdown, heading, logo))-->
+            <div class="dropdown navElement">
+
+                <!--mobile: menu-button ("hamburger") - On click a dropdown menu with links to the main pages of the website will show up-->
+                <button id="hamburgerButton" onclick="dropDown(hamburger)"class="hamburger hamburger--slider hiddenOnDesktop" type="button">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </button>
+
+                <!--(mobile: container of the dropdown list) (desktop: container for all elements of the navbar) -->
+                <div class="dropdown-content" id="myDropdown">
+
+                  <!-- desktop: logo top left admin panel navbar-->
+                  <img class="logonavDesktop hiddenOnMobile"  src="Upload/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
+
+
+                    <ul>
+
+                        <!--all devices: links to the user-end (both dropped down (mobile) and horizontally arranged (desktop))-->
+                        <li><span><a href="../Front-End/Start.php" class="active">Startseite</a></span></li>
+                        <li><span><a href="../Front-End/ueberuns.php">Über Uns</a></span></li>
+                        <li><span><a href="../Front-End/Veranstaltungen.php" >Veranstaltungen</a></span></li>
+                        <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
+                        <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
+                        <!-- desktop: user icon in the top right corner of the admin panel navbar -->
+                        <li id="userMenuListItem"><button id = "userMenuButton" class = "dropdownbtn" onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></button></li>
+                    </ul>
+
+                    <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->
+                    <div id="userMenuDropDown" class = "divUserMenu">
+                      <ul>
+                        <li><a href="#">Mein Profil</a></li>
+                        <li><a href="#">Einstellungen</a></li>
+                        <li><a href="logout.php">Abmelden</a></li>
+                      </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- mobile & tablet: name of the active page-->
+            <div class="navElement hiddenOnDesktop">
+                <h3>Alle Posts</h3>
+            </div>
+
+            <!--mobile & tablet GSV logo upper right corner-->
+            <div class="navElement divLogoNav hiddenOnDesktop">
+                <!--gsv logo-->
+                <img class="logonavMobile" src="IMG/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
+            </div>
+        </nav>
 
 
 
@@ -147,14 +195,7 @@
 
       </div>
 
-
-    <div id="Footer">
-      <br>
-      <br>
-      footer
-      <br>
-    </div>
-
+      <script src="js/script.js"></script>
 
 
 

@@ -12,25 +12,25 @@
 
 }
 
+/* every object that shall be hidden on desktop can add this class */
 .hiddenOnDesktop{
   display:none;
   position: absolute;
 }
 
-
-
+/* hides the scrollbar on desktop */
 ::-webkit-scrollbar {
 display: none;
 }
 
-/***Bookmark Seitenanfang***/
+/***non visible bookmark to scroll up to***/
 #sanfang {
     visibility: hidden;
     position: absolute;
 }
 /******/
 
-/* Sticky full-width Menubar */
+/* Sticky full-width navbar */
 nav{
 
     width: 100%;
@@ -42,7 +42,7 @@ nav{
     z-index: 7;
 }
 
-
+/* list of links to user-end in the navbar*/
 nav ul{
     display: flex;
     flex-direction:row;
@@ -50,54 +50,91 @@ nav ul{
     justify-content: flex-end;
     list-style-type: none;
     margin:0;
-    padding: 6px 0 6px ;
 
 }
+
 nav ul li{
     display: block;
-    margin: 1.2vh 16px 1.4vh 10px;
     color: white;
-    font-size: 20px;
+    font-size: 2.2vh;
+    margin: 1vh 0.6vw;
 }
-
+/* "container" of the links to user-end */
 nav ul li span{
     display: inline-block;
-
+    padding: 1.35vh;
 }
-
-
+/* links to user-end */
 nav ul li span a{
     text-decoration: none;
     color: white;
 }
-
+/* hovered links to user-end */
 nav ul li a:hover{
     color:white;
     text-decoration: none;
 }
-/*Gemontlogo oben links*/
-.logonav{
-    width:222px;
-    height:50px;
+
+
+/* desktop: Logo in the top left corner */
+.logonavDesktop{
+  margin-top: 1.2vh;
+  width: 22.2vh;
+  height: 5vh;
+  position: absolute;
 }
 
-#logomobile{
-    display: none;
-    position: absolute;
+/******** styles for the dropdown of the user icon **********/
+
+
+
+/* desktop: user icon top right */
+#userMenuButton{
+  border-radius: 50%;
+  width: 6vh;
+  height: 6vh;
+  background-color: white;
+  border: none;
+  color: #444;
+
 }
 
-nav div h5{
-    display:none;
-    position: absolute;
+/* container of the icon dropdown menu */
+.divUserMenu{
+  background-color: white;
+  color: #444;
+  display:none;
+  position: absolute;
+  width: 17vw;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10;
+  margin: 0;
+  right: 0;
 }
-#hamburgerButton{
-    display:none;
-    position: absolute;
+/* list of links in the icon dropdown menu */
+.divUserMenu ul{
+  color: #444;
+  display:flex;
+  flex-direction: column;
+  margin: 1.5vh 1.75vw;
 }
-#timermobile{
-    display:none;
-    position:absolute;
+/* links of icon dropdown menu */
+.divUserMenu ul li a{
+  color: #444;
+  text-decoration: none;
 }
+
+/* hovered links of icon dropdown menu */
+.divUserMenu ul li a:hover{
+  color: tomato;
+  text-decoration: none;
+}
+
+/* toggled when the icon is clicked */
+.show{
+  display: inline-block;
+}
+
 
 /*Container fürs Timerbanner*/
 #timerdesktop{
@@ -109,7 +146,7 @@ nav div h5{
 
 }
 /*GeMont-Logo oben rechts*/
-.logonav{
+.logonavMobile{
     margin-top: 0.3em;
         height: 1.8em;
         position: absolute;

@@ -18,94 +18,111 @@
     <link rel="stylesheet" href="css/dashboard.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
   </head>
   <body>
-    <!--Bookmark zum Seitenanfang-->
+    <!--bookmark to scroll up to-->
     <div id="sanfang"> Copyright &copy; Innovative Programming JTown </div>
 
-    <!--- Navigations-/Menubar-->
+
+<!-- -------------------------------------- navbar top -------------------------------------- -->
+      <!--- In this container, the navigation bar at the top of every admin panel page is defined.
+
+            On mobile devices, the navbar consist of three main elements -
+            the menu button (also called hamburger button), the page heading and the logo (from left to right).
+
+            On the desktop the navigation bar consists of the gsv logo in the top left corner,
+            a list of links to all user-end pages and a user-icon that activates a dropdown when clicked.
+      -->
+
     <nav>
 
-        <!--DropdownContainer-->
+
+        <!--(mobile: container of the dropdown menu; of of three navelements(dropdown, heading, logo))-->
         <div class="dropdown navElement">
 
-            <!--Hamburger Button, bei Klick wird Dropdown dargestellt-->
-            <button id="hamburgerButton" onclick="dropDown(hamburger)"class="hamburger hamburger--slider" type="button">
+            <!--mobile: menu-button ("hamburger") - On click a dropdown menu with links to the main pages of the website will show up-->
+            <button id="hamburgerButton" onclick="dropDown(hamburger)"class="hamburger hamburger--slider hiddenOnDesktop" type="button">
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
                 </span>
             </button>
 
-            <!--Container für die Elemente der Navbar, in der Desktopvariante klassisch dargestellt-->
+            <!--(mobile: container of the dropdown list) (desktop: container for all elements of the navbar) -->
             <div class="dropdown-content" id="myDropdown">
 
-              <img class="logonav hiddenOnMobile"  src="Upload/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
+              <!-- desktop: logo top left admin panel navbar-->
+              <img class="logonavDesktop hiddenOnMobile"  src="Upload/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
 
-                <!--Linkliste-->
+
                 <ul>
 
-
+                    <!--all devices: links to the user-end (both dropped down (mobile) and horizontally arranged (desktop))-->
+                    <li><span><a href="../Front-End/Start.php" class="active">Startseite</a></span></li>
                     <li><span><a href="../Front-End/ueberuns.php">Über Uns</a></span></li>
-                    <li id="userMenuListItem"><button id = "userMenuButton" class = "dropdownbtn" onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></button></li>
-                    <!-- <li><span><a href="#">Projekte und Inhalte</a></span>
-                    </li> -->
-                    <!--<li>GSV Logo (nur für den Desktop relevant)-->
-                <!-- <img src="../Front-End/IMG/gsvGemontLogo.jpg" alt="gemontlogo" class="logonav" id="logodesktop" ></li>
                     <li><span><a href="../Front-End/Veranstaltungen.php" >Veranstaltungen</a></span></li>
                     <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
-                    <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li> -->
+                    <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
+                    <!-- desktop: user icon in the top right corner of the admin panel navbar -->
+                    <li id="userMenuListItem"><button id = "userMenuButton" class = "dropdownbtn" onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></button></li>
                 </ul>
 
+                <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->
                 <div id="userMenuDropDown" class = "divUserMenu">
                   <ul>
-                    <li>Profilbild</li>
-                    <li>Kontoeinstellungen</li>
+                    <li><a href="#">Mein Profil</a></li>
+                    <li><a href="#">Einstellungen</a></li>
                     <li><a href="logout.php">Abmelden</a></li>
                   </ul>
                 </div>
-
-
             </div>
 
 
         </div>
 
-        <!--Name der aktuellen Seite mittig in der Navbar (Tablet&Smartphone)-->
+        <!-- mobile & tablet: name of the active page-->
         <div class="navElement hiddenOnDesktop">
-            <h3>Start</h3>
+            <h3>Alle Posts</h3>
         </div>
 
-        <!--GSV Logo Rechts oben in der Navbar (Tablet & Smartphone)-->
-        <div class="navElement divLogoNav">
-            <!--GSV Logo-->
-            <img class="logonav" id="logomobile" src="IMG/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
+        <!--mobile & tablet GSV logo upper right corner-->
+        <div class="navElement divLogoNav hiddenOnDesktop">
+            <!--gsv logo-->
+            <img class="logonavMobile" src="IMG/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
         </div>
-
-        <!--Container des Timerbanners-->
-
     </nav>
 
+<!-- -------------------------------------- main content ---------------------------------------------- -->
+    <!--
+      In this container, the main content of the "all post"-page is defined.
+    -->
     <div class="wrapper">
+
+
       <div class="side-nav">
+        <!-- In this container, the navigation bar at the left of every admin panel page is defined.
+      -->
         <ul class="Side-nav-list">
-          <li class="active"><a href="dashboard.php">Alle Artikel</a></li>
+          <li><a href="dashboard.php">Dashboard</a></li>
+          <li class="active"><a href="allPosts.php">Alle Artikel</a></li>
           <li><a href="AddNewPost.php">Neuer Artikel</a></li>
-          <li><a href="categories.php">Kategorien</a></li>
-          <li><a href="#">Neue Kategorie</a></li>
-          <li><a href="#">Admin-Verwaltung</a></li>
-          <li><a href="comments.php">Comments <?php
-            $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
-            $ExecuteTotal = mysqli_query($Connection, $QueryTotal);
-            $RowsTotal = mysqli_fetch_array($ExecuteTotal);
-            $Total =array_shift($RowsTotal);?>
+          <li><a href="categories.php">Post-Kategorien</a></li>
+          <li><a href="#">Kontakt-Inbox</a></li>
+          <li><a href="admins.php">Admin-Verwaltung</a></li>
+          <li><a href="comments.php">Comments
+            <!--fetch number of unappoved comments and display it right of the comments hyperlink-->
+            <?php
+              $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
+              $ExecuteTotal = mysqli_query($Connection, $QueryTotal);
+              $RowsTotal = mysqli_fetch_array($ExecuteTotal);
+              $Total =array_shift($RowsTotal);?>
+              <!--Only show the number if there are any unapproved comments-->
             <?php if($Total > 0){ ?>
           <span class="alert alert-warning "><?php echo $Total;?></span>
         <?php } ?></a>
           </li>
-          <li><a href="#">Startseite</a></li>
-          <li><a href="logout.php">Logout</a></li>
+          <li><a href="../Front-End/calendar.html">Kalender</a></li>
+          <li><a href="logout.php">Abmelden</a></li>
         </ul>
       </div>
-
-          <div class="table-posts">
+      <div class="table-posts">
             <?php echo Message();
             echo SuccessMessage();?>
             <p>Alle Posts</p>
@@ -196,6 +213,7 @@
           </div>
     </div>
 
+<!-- -------------------------------------- footer -------------------------------------------- -->
 
     <footer id="footer">
 
@@ -210,7 +228,8 @@
         <p><a href="#sanfang"><i id="arrowup" class="fas fa-angle-up"></i></a></p>
     </footer>
 
-    <!---Javascript-Skripte-->
+<!-- ------------------------------------ scripts ------------------------------------------------ -->
+
     <script src="js/script.js"></script>
 
 
