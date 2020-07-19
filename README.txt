@@ -1,1 +1,1 @@
-This is the github-repository to which I will upload all of the changes to the website for the student-representation.
+This is the github-repository that documents my progress at the development of the website for the student-representation and its documentation.
