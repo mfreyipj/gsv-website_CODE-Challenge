@@ -95,9 +95,28 @@ nav ul li a:hover{
   height: 6vh;
   background-color: white;
   border: none;
+  position: relative;
+}
+
+/* span for aligning the link */
+#userMenuButton span{
+  height: 3vh;
+  width: 3vh;
+  position: absolute;
+  top: 24%;
+  left: 24%;
+  padding: 0;
+  text-align: center;
+}
+
+#userMenuButton span a{
   color: #444;
+  text-decoration: none;
+  font-size: 2.2vh;
 
 }
+
+
 
 /* container of the icon dropdown menu */
 .divUserMenu{
@@ -151,11 +170,7 @@ nav ul li a:hover{
         height: 1.8em;
         position: absolute;
 }
-/*Aktiver Teil der Seite- Anpassen für die aktuelle Seite in HTML benötigt*/
 
-.active{
-    color: white;
-}
 
 /*Timerbanner in tomato ohne timer*/
 .timerbanner{
@@ -174,23 +189,41 @@ nav ul li a:hover{
   flex-direction: row;
 }
 
-.side-nav-list{
-  width: 20%;
+.row{
+  display:flex;
+  flex-direction: row;
 }
 
 
-.side-nav-list a{
+
+/* styles for the side navigation at the left of every admin panel page */
+
+.side-nav{
+  width: 25vw;
+  border-right: 1px solid #444;
+  margin-right: 3vh;
+}
+
+.side-nav ul{
+  margin-left: 3vw;
+  margin-top: 5vh;
+  list-style-type: none;
+}
+.side-nav ul li{
+  margin-bottom: 2.5vh;
+}
+
+.side-nav ul a{
   color: #444;
+  text-decoration: none;
 }
-.side-nav-list .active a{
-
-  color: tomato;
-
+/* the active page's link shall be highlighted in orange */
+.side-nav ul a.active{
+    color: tomato;
 }
-
-.side-nav-list a:hover{
+/* when hovered the links shall change their color to orange */
+.side-nav ul a:hover{
   color: tomato;
-  display: block;
 }
 
 

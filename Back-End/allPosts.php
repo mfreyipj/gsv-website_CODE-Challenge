@@ -61,7 +61,7 @@
                     <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
                     <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
                     <!-- desktop: user icon in the top right corner of the admin panel navbar -->
-                    <li id="userMenuListItem"><button id = "userMenuButton" class = "dropdownbtn" onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></button></li>
+                    <li id="userMenuListItem"><span id = "userMenuButton"><span><a onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
                 </ul>
 
                 <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->
@@ -96,18 +96,24 @@
     <div class="wrapper">
 
 
-      <div class="side-nav">
-        <!-- In this container, the navigation bar at the left of every admin panel page is defined.
+
+      <!-- In this container, the navigation bar at the left of every admin panel page is defined.
+          It consists of a basic unordered list of links to the main pages of the admin panel.
+          The only uncommon feature is a count of unapproved comments right of the comments link.
+          As the name suggests, it shows the logged in admin if there are any comments to approved and if there are, how many.
       -->
-        <ul class="Side-nav-list">
+      <div class="side-nav">
+
+        <ul>
           <li><a href="dashboard.php">Dashboard</a></li>
-          <li class="active"><a href="allPosts.php">Alle Artikel</a></li>
+          <li><a href="allPosts.php" class="active">Alle Artikel</a></li>
           <li><a href="AddNewPost.php">Neuer Artikel</a></li>
           <li><a href="categories.php">Post-Kategorien</a></li>
           <li><a href="#">Kontakt-Inbox</a></li>
           <li><a href="admins.php">Admin-Verwaltung</a></li>
+          <li><a href="#">Über Uns</a></li>
           <li><a href="comments.php">Comments
-            <!--fetch number of unappoved comments and display it right of the comments hyperlink-->
+            <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
             <?php
               $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
               $ExecuteTotal = mysqli_query($Connection, $QueryTotal);
@@ -122,6 +128,10 @@
           <li><a href="logout.php">Abmelden</a></li>
         </ul>
       </div>
+
+
+
+
       <div class="table-posts">
             <?php echo Message();
             echo SuccessMessage();?>
