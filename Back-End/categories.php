@@ -15,7 +15,7 @@ if(isset($_POST["Submit"])){
     $_SESSION["ErrorMessage"] = "All Fields must be filled out";
     Redirect_to("categories.php");
   }elseif(strlen($Category)>99) {
-    $_SESSION["ErrorMessage"] = "Name too long for Category";
+    $_SESSION["ErrorMessage"] = "Name too long for category";
     Redirect_to("categories.php");
   }
   else{
@@ -23,11 +23,11 @@ if(isset($_POST["Submit"])){
     $Query= "INSERT INTO category(datetime,name,creatorname) VALUES('$DateTime','$Category', '$Admin')";
     $Execute=mysqli_query($Connection,$Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Added Category Successfully";
+      $_SESSION["SuccessMessage"] = "Added category successfully";
       Redirect_to("categories.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Category failed to add";
+      $_SESSION["ErrorMessage"] = "Failed to add category";
       Redirect_to("categories.php");
     }
 
@@ -47,6 +47,7 @@ if(isset($_POST["Submit"])){
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <link rel="stylesheet" href="css/categoriesD.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
   </head>
@@ -92,7 +93,7 @@ if(isset($_POST["Submit"])){
                         <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
                         <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
                         <!-- desktop: user icon in the top right corner of the admin panel navbar -->
-                        <li id="userMenuListItem"><span id = "userMenuButton"><span><a onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
+                        <li id="userMenuListItem"><span id = "userMenuButton" onclick="dropDownUser()"><span><a ><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
                     </ul>
 
                     <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->
@@ -121,93 +122,130 @@ if(isset($_POST["Submit"])){
         </nav>
 
 
-    <div class="container-fluid">
-      <div class="row">
+    <div class="wrapper">
 
 
-        <!-- In this container, the navigation bar at the left of every admin panel page is defined.
-            It consists of a basic unordered list of links to the main pages of the admin panel.
-            The only uncommon feature is a count of unapproved comments right of the comments link.
-            As the name suggests, it shows the logged in admin if there are any comments to approved and if there are, how many.
-        -->
-        <div class="side-nav">
+      <!-- In this container, the navigation bar at the left of every
+        admin panel page is defined. It consists of a basic unordered list
+        of links to the main pages of the admin panel. The only uncommon
+        feature is a count of unapproved comments right of the comments link.
+        As the name suggests, it shows the logged in admin if there are
+        any comments to approved and if there are, how many.
+      -->
+      <div class="side-nav">
 
-          <ul>
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="allPosts.php">Alle Artikel</a></li>
-            <li><a href="AddNewPost.php">Neuer Artikel</a></li>
-            <li><a href="categories.php" class="active">Post-Kategorien</a></li>
-            <li><a href="#">Kontakt-Inbox</a></li>
-            <li><a href="admins.php">Admin-Verwaltung</a></li>
-            <li><a href="#">Über Uns</a></li>
-            <li><a href="comments.php">Comments
-              <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
-              <?php
-                $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
-                $ExecuteTotal = mysqli_query($Connection, $QueryTotal);
-                $RowsTotal = mysqli_fetch_array($ExecuteTotal);
-                $Total =array_shift($RowsTotal);?>
-                <!--Only show the number if there are any unapproved comments-->
-              <?php if($Total > 0){ ?>
-            <span class="alert alert-warning "><?php echo $Total;?></span>
-          <?php } ?></a>
-            </li>
-            <li><a href="../Front-End/calendar.html">Kalender</a></li>
-            <li><a href="logout.php">Abmelden</a></li>
-          </ul>
-        </div>
+        <ul>
+          <li><a href="dashboard.php">Dashboard</a></li>
+          <li><a href="allPosts.php">Alle Artikel</a></li>
+          <li><a href="AddNewPost.php">Neuer Artikel</a></li>
+          <li><a href="categories.php" class="active">Post-Kategorien</a></li>
+          <li><a href="#">Kontakt-Inbox</a></li>
+          <li><a href="admins.php">Admin-Verwaltung</a></li>
+          <li><a href="#">Über Uns</a></li>
+          <li><a href="comments.php">Comments
+            <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
+            <?php
+              $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
+              $ExecuteTotal = mysqli_query($Connection, $QueryTotal);
+              $RowsTotal = mysqli_fetch_array($ExecuteTotal);
+              $Total =array_shift($RowsTotal);?>
+              <!--Only show the number if there are any unapproved comments-->
+            <?php if($Total > 0){ ?>
+          <span class="alert alert-warning "><?php echo $Total;?></span>
+        <?php } ?></a>
+          </li>
+          <li><a href="../Front-End/calendar.html">Kalender</a></li>
+          <li><a href="logout.php">Abmelden</a></li>
+        </ul>
+      </div>
 
+      <!-- In this container, the main content (right of the
+        left side navigation) is stored. On this page, the main content
+        consists of a table which contains data about the existing post
+        categories and of a form with which the user can add a
+        new category to the db.
+      -->
+      <div class="mainContent">
 
-        <div class="mainContent">
-          <h1>Manage Categories</h1>
-          <?php echo Message();
-          echo SuccessMessage();?>
-          <div class="">
-            <form class="" action="categories.php" method="post">
-              <fieldset>
-                <label for="categoryname">Name:</label>
-                <input type="text" name="Category" value="" id="categoryname" placeholder="Name">
-                <input class="btn btn-default" type="submit" name="Submit" value="Add New Category">
-              </fieldset>
-            </form>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-striped">
+        <!-- below the top navigation bar, possible success or error
+        messages will pop up -->
+        <?php echo Message();
+        echo SuccessMessage();?>
+
+        <!-- heading of the page -->
+        <h3>Kategorien verwalten</h3>
+
+        <!-- table-containers are divs in which the various tables of the
+        admin-panel together with their headings are stored -->
+
+        <!-- This table-container contains the table of post categories -->
+        <div class="table-container">
+          <table>
+            <!-- the table head which contains the column's name -->
+            <thead>
               <tr>
-                <th>Nr</th>
-                <th>Date & Time</th>
-                <th>Category Name</th>
-                <th> Creator Name</th>
-                <th>Action</th>
+                <th>Nr.</th>
+                <th>Datum</th>
+                <th>Kategoriename</th>
+                <th>Erstellt von</th>
+                <th>Löschen</th>
               </tr>
+            </thead>
+
+            <!-- the table's body which contains the data rows -->
+            <tbody>
               <?php
+              // query that fetches the categories from the db
                 $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
                 $Execute = mysqli_query($Connection, $ViewQuery);
-                $CrNr = 0;
+                $SrNr = 0;
+                // As long as there still is data to be fetched this loop will
+                // echo the fetched data into the assigned table cells.
+                // table cells are assigned with the given variables
                 while($DataRows = mysqli_fetch_array($Execute)){
                   $Id = $DataRows["id"];
                   $DateTime = $DataRows["datetime"];
                   $CategoryName = $DataRows["name"];
                   $CreatorName = $DataRows["creatorname"];
-                  $CrNr++;
+                  $SrNr++;
 
                ?>
+               <!-- table row in which the fetched data will be echoed -->
                <tr>
-                 <td><?php echo $CrNr; ?></td>
+                 <td><?php echo $SrNr; ?></td>
                  <td><?php echo $DateTime; ?></td>
                  <td><?php echo $CategoryName; ?></td>
                  <td><?php echo $CreatorName; ?></td>
-                 <td><a href="DeleteCategory.php?id=<?php echo $Id ?> "><span class="btn btn-danger">Delete</span> </a> </td>
+                 <td><a href="DeleteCategory.php?id=<?php echo $Id ?> "><span class="">Löschen</span> </a> </td>
                </tr>
                <?php } ?>
-            </table>
-          </div>
+            </tbody>
+
+          </table>
+        </div>
+
+        <!-- form-containers are divs in which the various forms of the
+        admin-panel are stored -->
+
+        <!-- This form-container contains a form which is used to add new
+          categories to the categories table-->
+        <div class="form-container">
+          <form class="" action="categories.php" method="post">
+            <fieldset>
+              <label for="categoryname">Name:</label><br>
+              <!-- input field for the category name -->
+              <input type="text" name="Category" value="" id="categoryname" placeholder="Name"><br>
+              <!-- submit button -->
+              <input class="btnSubmit" type="submit" name="Submit" value="Add New Category">
+            </fieldset>
+          </form>
         </div>
       </div>
+
     </div>
 
 
-
+    
     <script src="js/script.js"></script>
 
   </body>

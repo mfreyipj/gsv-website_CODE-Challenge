@@ -8,12 +8,12 @@
     $Query = "DELETE FROM comments WHERE id = '$IdFromURL'";
     $Execute = mysqli_query($Connection, $Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Comment Deleted Successfully";
-      Redirect_to("Comments.php");
+      $_SESSION["SuccessMessage"] = "Comment deleted successfully";
+      Redirect_to("comments.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Something went wrong, try again";
-      Redirect_to("Comments.php");
+      $_SESSION["ErrorMessage"] = "Something went wrong, the comment could not be deleted";
+      Redirect_to("comments.php");
     }
   }
 

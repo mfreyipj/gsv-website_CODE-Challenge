@@ -2,7 +2,6 @@
 <?php require_once('include/Sessions.php'); ?>
 <?php require_once('include/Functions.php'); ?>
 <?php confirmLogin(); ?>
-
 <?php
   if(isset($_POST["Submit"])){
     $Title = mysqli_real_escape_string($Connection,$_POST["Title"]);
@@ -22,12 +21,12 @@
       $Execute=mysqli_query($Connection,$Query);
       move_uploaded_file($_FILES["Image"]["tmp_name"], $Target);
       if($Execute){
-        $_SESSION["SuccessMessage"] = "Post Deleted Successfully";
-        Redirect_to("dashboard.php");
+        $_SESSION["SuccessMessage"] = "Post deleted successfully";
+        Redirect_to("allPosts.php");
       }
       else{
-        $_SESSION["ErrorMessage"] = "Something went wrong, try again";
-        Redirect_to("AddNewPost.php");
+        $_SESSION["ErrorMessage"] = "Something went wrong, the post could not be deleted";
+        Redirect_to("allPosts.php");
       }
 
   }
@@ -84,7 +83,7 @@
                         <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
                         <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
                         <!-- desktop: user icon in the top right corner of the admin panel navbar -->
-                        <li id="userMenuListItem"><span id = "userMenuButton"><span><a onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
+                        <li id="userMenuListItem"><span id = "userMenuButton" onclick="dropDownUser()"><span><a ><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
                     </ul>
 
                     <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->

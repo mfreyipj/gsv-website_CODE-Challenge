@@ -1,13 +1,1 @@
-tr:nth-child(even) {background-color: #f2f2f2;}
-.table-posts{
-  width: 100%;
-}
-.table-posts table {
-  border-collapse: collapse;
-  width: 100%;
-  overflow:scroll;
-}
 
-.table-posts th, td{
-  padding: 15px 5px;
-}

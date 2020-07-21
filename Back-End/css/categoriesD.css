@@ -1,0 +1,13 @@
+table{
+  font-size: 1.8vh;
+
+}
+
+table td, table th{
+  padding: 2vh 1.5vw;
+}
+
+.mainContent h3{
+  font-size: 3vh;
+  margin-top: 4vh;
+}

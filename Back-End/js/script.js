@@ -1,30 +1,5 @@
-/*-----------Javascript-Skripte-----------*/
 
-
-// var nav = document.querySelector('.nav');
-// var position = 0;
-//
-// window.addEventListener('scroll', function(){
-//   if(position < window.pageYOffset) {
-//     //console.log('down')
-//     nav.classList += ' up';
-//     position = window.pageYOffset;
-//   } else {
-//     //console.log('up');
-//     nav.classList = 'nav'
-//     position = window.pageYOffset;
-// }
-//
-//
-
-
-
-
-
-
-    /*Javascript-Skript für den Hamburger-Button*/
-
-
+    /*function that enables the interactive use of the dropdown-button*/
     function dropDownHamburger(){
         var dropdownbtn = document.getElementById("hamburgerButton");
         // Toggle class "is-active"
@@ -34,6 +9,7 @@
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
+    // function that is used to show or hide the dropdown at the user-icon
     function dropDownUser(){
       document.getElementById("userMenuDropDown").classList.toggle("show");
     }
@@ -76,3 +52,23 @@ $('a[href*="#"]')
      }
    }
  });
+
+
+ /*-----------Javascript-Skripte-----------*/
+
+
+ // var nav = document.querySelector('.nav');
+ // var position = 0;
+ //
+ // window.addEventListener('scroll', function(){
+ //   if(position < window.pageYOffset) {
+ //     //console.log('down')
+ //     nav.classList += ' up';
+ //     position = window.pageYOffset;
+ //   } else {
+ //     //console.log('up');
+ //     nav.classList = 'nav'
+ //     position = window.pageYOffset;
+ // }
+ //
+ //

@@ -8,11 +8,11 @@
     $Query = "DELETE FROM registration WHERE id = '$IdFromURL'";
     $Execute = mysqli_query($Connection, $Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Admin Deleted Successfully";
+      $_SESSION["SuccessMessage"] = "Admin deleted successfully";
       Redirect_to("admins.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Something went wrong, try again";
+      $_SESSION["ErrorMessage"] = "Something went wrong, the admin could not be deleted";
       Redirect_to("admins.php");
     }
   }

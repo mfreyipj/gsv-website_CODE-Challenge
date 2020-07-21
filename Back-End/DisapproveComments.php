@@ -8,12 +8,12 @@
     $Query = "UPDATE comments SET status = 'OFF' WHERE id = '$IdFromURL'";
     $Execute = mysqli_query($Connection, $Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Comment Disapproved Successfully";
-      Redirect_to("Comments.php");
+      $_SESSION["SuccessMessage"] = "Comment disapproved successfully";
+      Redirect_to("comments.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Something went wrong, try again";
-      Redirect_to("Comments.php");
+      $_SESSION["ErrorMessage"] = "Something went wrong, the comment could not be disapproved";
+      Redirect_to("comments.php");
     }
   }
 

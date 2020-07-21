@@ -13,7 +13,7 @@
     $DateTime;
 
     if(empty($Name)||empty($Email)||empty($Comment)){
-      $_SESSION["ErrorMessage"] = "All Fields are required";
+      $_SESSION["ErrorMessage"] = "All fields are required";
 
     }elseif(strlen($Comment)>500) {
       $_SESSION["ErrorMessage"] = "Comment can't be longer than 500 characters";
@@ -24,7 +24,7 @@
       $Query="INSERT INTO comments(datetime, name, email, comment, approvedby, status, admin_panel_id) VALUES('$DateTime', '$Name', '$Email', '$Comment','pending', 'OFF', '$PostId');";
       $ExecuteQuery = mysqli_query($Connection, $Query);
       if($ExecuteQuery){
-        $_SESSION["SuccessMessage"] = "Comment Submitted Successfully";
+        $_SESSION["SuccessMessage"] = "Comment submitted successfully";
         Redirect_to("FullPost.php?id={$PostId}");
       }
       else{

@@ -2,14 +2,25 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-/*Schriftart und Eliminierung von ungewollten Margins und Paddings*/
-*{
 
+/* In this css file, every style
+that applies for all of the pages of the admin
+panel is defined.
+
+Every object that is only referred to by its
+class name or id will have its object type written
+in the first comment that refers to it.
+example: div - .mainContent
+*/
+
+
+
+/*base styles for every element of every page*/
+*{
     margin:0;
     padding:0;
     font-family: "Open Sans", sans-serif;
     box-sizing: border-box;
-
 }
 
 /* every object that shall be hidden on desktop can add this class */
@@ -96,6 +107,7 @@ nav ul li a:hover{
   background-color: white;
   border: none;
   position: relative;
+  display:block;
 }
 
 /* span for aligning the link */
@@ -103,12 +115,14 @@ nav ul li a:hover{
   height: 3vh;
   width: 3vh;
   position: absolute;
-  top: 24%;
+  top: 23%;
   left: 24%;
   padding: 0;
   text-align: center;
 }
-
+#userMenuButton:hover{
+  cursor: pointer;
+}
 #userMenuButton span a{
   color: #444;
   text-decoration: none;
@@ -184,47 +198,189 @@ nav ul li a:hover{
     z-index: 0;
 }
 
+/* div - container in which success or error
+messages will be displayed at fitting occasions*/
+.message{
+  padding: 1.5vh 1.5vw;
+  display: block;
+  border-radius: 40px;
+  color: #444;
+  margin: 2vh 0 4vh 2vw;
+}
+
+/* possible background colors of the message div */
+.success{
+  background-color: rgba(61, 184, 67, 0.2);
+
+}
+.failure{
+  background-color: rgb(239, 68, 68, 0.34);
+}
+
+/* div - This container contains every content
+that is located between the top navigation
+bar and the footer */
 .wrapper{
   display: flex;
   flex-direction: row;
-}
-
-.row{
-  display:flex;
-  flex-direction: row;
+  height: 92vh;
 }
 
 
-
-/* styles for the side navigation at the left of every admin panel page */
-
+/* div - container of the side navigation which is
+located on the left of every admin panel page */
 .side-nav{
-  width: 25vw;
+  max-width: 25vw;
+  min-width: 20vw;
   border-right: 1px solid #444;
-  margin-right: 3vh;
+  margin-right: 5vh;
 }
-
+/* list of the links of the side-nav */
 .side-nav ul{
   margin-left: 3vw;
   margin-top: 5vh;
   list-style-type: none;
 }
+/* list-items that contain the links */
 .side-nav ul li{
   margin-bottom: 2.5vh;
 }
 
-.side-nav ul a{
+.side-nav ul li a{
   color: #444;
   text-decoration: none;
 }
 /* the active page's link shall be highlighted in orange */
-.side-nav ul a.active{
+.side-nav ul li a.active{
     color: tomato;
 }
 /* when hovered the links shall change their color to orange */
-.side-nav ul a:hover{
+.side-nav ul li a:hover{
   color: tomato;
 }
+
+/* div - In this container, the main content
+(right of the left side navigation) is stored. */
+.mainContent{
+  margin: 5vh 3vw 5vh 0;
+}
+
+/* this is usually the heading of the main content */
+.mainContent h3{
+  font-size: 2.26vh;
+  margin-bottom: .5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: inherit;
+  margin-left: 2vw;
+}
+
+/* div - In table-containers the various tables
+of the admin-panel (normally together
+with their headings) are stored */
+.table-container{
+  margin-top: 5vh;
+  margin-bottom: 9vh;
+  overflow-y: scroll;
+}
+
+/* the following styles all refer to the tables
+that appear on various pages of the admin panel */
+table{
+  margin: 3vh 2vw 3vh 2vw;
+  border-collapse: collapse;
+  font-size: 1.6vh;
+  border-radius: 5px 5px 0 0;
+  overflow:hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  background-color: #f2f2f2;
+}
+/* table row in which the column names are displayed */
+table thead tr {
+  background-color: #fff;
+  color: #444;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+/* table rows in which the fetched is displayed */
+table tbody tr {
+  border-top: 1px solid #ddd;
+}
+
+table th, table td {
+  padding: 2vh 0.5vw;
+}
+table th:first-of-type, table td:first-of-type{
+  padding-left: 1vw;
+}
+table th:last-of-type, table td:last-of-type{
+  padding-right: 1vw;
+}
+
+/* The following classes are used to define special margins
+between table-columns */
+
+.tableNameHeadingSpan{
+  margin-right: 6vw;
+}
+
+.tableDateHeadingSpan{
+  margin-right: 8vw;
+}
+.tableCommentHeadingSpan , .tableTitleHeadingSpan{
+  margin-right: 10vw;
+}
+
+.tableApprovedByHeadingSpan{
+  margin-right: 6vw;
+}
+
+.tableCategoryHeadingSpan{
+  margin-right: 1vw;
+}
+
+
+
+/* div - In form-containers the various forms
+of the admin-panel are stored */
+
+.form-container{
+  margin-left: 2vw;
+}
+
+/* styles for every input field of the admin panel */
+form input{
+  margin: 1.5vh 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: 0.5vh 0.5vw;
+  color: #444;
+}
+form input:focus{
+  border: 1px solid #999;
+  outline:none;
+}
+
+/* input (type=submit) -
+ base styles for every submit button */
+.btnSubmit{
+  padding: 1vh 1vw;
+  color: #444;
+  background-color: #f2f2f2;
+  border: none;
+}
+.btnSubmit:focus{
+  border: 1px solid #777;
+}
+.btnSubmit:hover{
+  cursor:pointer;
+}
+
+
+
+
 
 
 

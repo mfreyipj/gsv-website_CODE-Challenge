@@ -14,14 +14,14 @@ if(isset($_POST["Submit"])){
   $DateTime;
   $Admin=$_SESSION["Username"];
   if(empty($Username)||empty($Password)||empty($ConfirmPassword)){
-    $_SESSION["ErrorMessage"] = "All Fields must be filled out";
+    $_SESSION["ErrorMessage"] = "All fields must be filled out";
 
   }elseif(strlen($Password)<4) {
-    $_SESSION["ErrorMessage"] = "At least 4 Characters are required";
+    $_SESSION["ErrorMessage"] = "At least 4 characters are required";
 
   }
   elseif($Password !== $ConfirmPassword) {
-    $_SESSION["ErrorMessage"] = "The Password must be equal";
+    $_SESSION["ErrorMessage"] = "The passwords must be equal";
 
   }
   else{
@@ -29,11 +29,11 @@ if(isset($_POST["Submit"])){
     $Query= "INSERT INTO registration(datetime,username,password, addedby) VALUES('$DateTime','$Username','$Password', '$Admin')";
     $Execute=mysqli_query($Connection,$Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Added Admin Successfully";
+      $_SESSION["SuccessMessage"] = "Added admin successfully";
       Redirect_to("admins.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Category failed to add";
+      $_SESSION["ErrorMessage"] = "Something went wrong, admin could not be added";
       Redirect_to("admins.php");
     }
 
@@ -99,7 +99,7 @@ if(isset($_POST["Submit"])){
                         <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
                         <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
                         <!-- desktop: user icon in the top right corner of the admin panel navbar -->
-                        <li id="userMenuListItem"><span id = "userMenuButton"><span><a onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
+                        <li id="userMenuListItem"><span id = "userMenuButton" onclick="dropDownUser()"><span><a ><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
                     </ul>
 
                     <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->

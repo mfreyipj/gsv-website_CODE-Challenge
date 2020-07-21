@@ -9,7 +9,7 @@ if(isset($_POST["Submit"])){
   $Password = mysqli_real_escape_string($Connection,$_POST["Password"]);
 
   if(empty($Username)||empty($Password)){
-    $_SESSION["ErrorMessage"] = "All Fields must be filled out";
+    $_SESSION["ErrorMessage"] = "All fields must be filled out";
     Redirect_to("loginpage.php");
   }
   else{
@@ -21,7 +21,7 @@ if(isset($_POST["Submit"])){
       Redirect_to("allPosts.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Invalid Username/Password";
+      $_SESSION["ErrorMessage"] = "Invalid username/password";
       Redirect_to("loginpage.php");
     }
 
@@ -40,6 +40,7 @@ if(isset($_POST["Submit"])){
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/adminstyles.css">
+    <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
   </head>

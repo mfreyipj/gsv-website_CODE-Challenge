@@ -61,7 +61,7 @@
                     <li><span><a href="../Front-End/newsletter.php" >Newsletter</a></span></li>
                     <li><span><a href="../Front-End/Kontakt.php" >Kontakt</a></span></li>
                     <!-- desktop: user icon in the top right corner of the admin panel navbar -->
-                    <li id="userMenuListItem"><span id = "userMenuButton"><span><a onclick="dropDownUser()"><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
+                    <li id="userMenuListItem"><span id = "userMenuButton" onclick="dropDownUser()"><span><a ><?php echo   substr($_SESSION["Username"], 0, 1) ?></a></span> </span></li>
                 </ul>
 
                 <!-- desktop: menu that drops down when the admin clicks his round icon on the admin panel navbar -->
@@ -131,96 +131,100 @@
 
 
 
+      <div class="mainContent">
+        <?php echo Message();
+        echo SuccessMessage();?>
+        
+        <div class="table-container">
 
-      <div class="table-posts">
-            <?php echo Message();
-            echo SuccessMessage();?>
-            <p>Alle Posts</p>
-              <table class="">
-                <tr>
-                  <th>No</th>
-                  <th>Post Title</th>
-                  <th>Date & Time</th>
-                  <th>Author</th>
-                  <th>Category</th>
-                  <th>Banner</th>
-                  <th>Comments</th>
-                  <th>Action</th>
-                  <th>Details</th>
-                </tr>
-                <?php
-                  $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC;";
-                  $Execute = mysqli_query($Connection, $ViewQuery);
-                  $PostNr = 0;
-                  while($DataRows = mysqli_fetch_array($Execute)){
-
-                    $Id = $DataRows["id"];
-                    $DateTime = $DataRows["datetime"];
-                    $Title = $DataRows["title"];
-                    $Category = $DataRows["category"];
-                    $Admin = $DataRows["author"];
-                    $Image = $DataRows["image"];
-                    $Post = $DataRows["post"];
-                    $PostNr++;
-                    ?>
-
+              <h3>Alle Posts</h3>
+                <table>
+                  <thead>
                     <tr>
-                      <td><?php echo $PostNr; ?></td>
-                      <td><?php
-                        if(strlen($Title)>20){
-                          $Title = substr($Title,0,20)."...";
-                        }echo $Title;
-                       ?>
-                     </td>
-                      <td>
-                        <?php
-                        if(strlen($DateTime)>22){
-                          $DateTime = substr($DateTime,0,22)."..";
-                        }echo $DateTime; ?>
-                      </td>
-                      <td><?php
-                      if(strlen($Admin)>20){
-                        $Admin = substr($Admin,0,20)."..";
-                      }echo $Admin; ?></td>
-                      <td><?php
-                      if(strlen($Category)>8){
-                        $Category = substr($Category,0,8)."..";
-                      }
+                      <th>Nr.</th>
+                      <th><span class="tableTitleHeadingSpan">Titel</span></th>
+                      <th><span class="tableDateHeadingSpan">Datum</span></th>
+                      <th><span class="tableNameHeadingSpan">Author</span></th>
+                      <th><span class="tableCategoryHeadingSpan">Kategorie</span></th>
+                      <th>Kommentar-Anzahl</th>
+                      <th>Bearbeiten</th>
+                      <th>Löschen</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC;";
+                      $Execute = mysqli_query($Connection, $ViewQuery);
+                      $PostNr = 0;
+                      while($DataRows = mysqli_fetch_array($Execute)){
 
-                      echo $Category; ?></td>
-                      <td><img class="DashboardImage" src="Upload/<?php echo $Image; ?>"></td>
-                      <td>
-                        <?php
-                          $QueryUnApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'OFF'";
-                          $ExecuteUnApproved = mysqli_query($Connection, $QueryUnApproved);
-                          $RowsUnApproved = mysqli_fetch_array($ExecuteUnApproved);
-                          $TotalUnApproved =array_shift($RowsUnApproved);?>
-                          <?php if($TotalUnApproved > 0){ ?>
-                        <span class="alert alert-danger"><?php echo $TotalUnApproved;?></span>
+                        $Id = $DataRows["id"];
+                        $DateTime = $DataRows["datetime"];
+                        $Title = $DataRows["title"];
+                        $Category = $DataRows["category"];
+                        $Admin = $DataRows["author"];
+                        $Post = $DataRows["post"];
+                        $PostNr++;
+                        ?>
+
+                        <tr>
+                          <td><?php echo $PostNr; ?></td>
+                          <td><?php
+                            if(strlen($Title)>20){
+                              $Title = substr($Title,0,20)."...";
+                            }echo $Title;
+                           ?>
+                         </td>
+                          <td>
+                            <?php
+                            if(strlen($DateTime)>22){
+                              $DateTime = substr($DateTime,0,22)."..";
+                            }echo $DateTime; ?>
+                          </td>
+                          <td><?php
+                          if(strlen($Admin)>20){
+                            $Admin = substr($Admin,0,20)."..";
+                          }echo $Admin; ?></td>
+                          <td><?php
+                          if(strlen($Category)>8){
+                            $Category = substr($Category,0,8)."..";
+                          }
+
+                          echo $Category; ?></td>
+                          <td>
+                            <?php
+                              $QueryUnApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'OFF'";
+                              $ExecuteUnApproved = mysqli_query($Connection, $QueryUnApproved);
+                              $RowsUnApproved = mysqli_fetch_array($ExecuteUnApproved);
+                              $TotalUnApproved =array_shift($RowsUnApproved);?>
+                              <?php if($TotalUnApproved > 0){ ?>
+                            <span class="alert alert-danger"><?php echo $TotalUnApproved;?></span>
+                          <?php } ?>
+                            <?php
+                              $QueryApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'ON'";
+                              $ExecuteApproved = mysqli_query($Connection, $QueryApproved);
+                              $RowsApproved = mysqli_fetch_array($ExecuteApproved);
+                              $TotalApproved =array_shift($RowsApproved);?>
+                              <?php if($TotalApproved > 0){ ?>
+                            <span class="alert alert-success "><?php echo $TotalApproved;?></span>
+                          <?php } ?>
+
+
+                          </td>
+                          <td><a href="EditPost.php?Edit=<?php echo $Id; ?>"><span class="">Bearbeiten</span> </a></td>
+                          <td><a href="DeletePost.php?Delete=<?php echo $Id; ?>"><span class="">Löschen</span> </a></td>
+                          <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>" target="_blank"> <span class="">Vorschau</span> </a></td>
+                      </tr>
                       <?php } ?>
-                        <?php
-                          $QueryApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'ON'";
-                          $ExecuteApproved = mysqli_query($Connection, $QueryApproved);
-                          $RowsApproved = mysqli_fetch_array($ExecuteApproved);
-                          $TotalApproved =array_shift($RowsApproved);?>
-                          <?php if($TotalApproved > 0){ ?>
-                        <span class="alert alert-success "><?php echo $TotalApproved;?></span>
-                      <?php } ?>
+                  </tbody>
+
+                </table>
 
 
-                      </td>
-                      <td><a href="EditPost.php?Edit=<?php echo $Id; ?>"><span class="btn btn-warning">Bearbeiten</span> </a> <a href="DeletePost.php?Delete=<?php echo $Id; ?>"><span class="btn btn-danger">Löschen</span> </a></td>
-                      <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>" target="_blank"> <span class="btn btn-primary">Vorschau</span> </a></td>
+            </div>
+      </div>
 
-
-
-                  </tr>
-
-                  <?php } ?>
-              </table>
-
-
-          </div>
     </div>
 
 <!-- -------------------------------------- footer -------------------------------------------- -->

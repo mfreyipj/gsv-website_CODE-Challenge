@@ -8,11 +8,11 @@
     $Query = "DELETE FROM category WHERE id = '$IdFromURL'";
     $Execute = mysqli_query($Connection, $Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Category Deleted Successfully";
+      $_SESSION["SuccessMessage"] = "Category deleted successfully";
       Redirect_to("categories.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Something went wrong, try again";
+      $_SESSION["ErrorMessage"] = "Something went wrong, the category could not be deleted";
       Redirect_to("categories.php");
     }
   }

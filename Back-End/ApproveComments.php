@@ -9,12 +9,12 @@
     $Query = "UPDATE comments SET status = 'ON', approvedby = '$Admin' WHERE id = '$IdFromURL'";
     $Execute = mysqli_query($Connection, $Query);
     if($Execute){
-      $_SESSION["SuccessMessage"] = "Comment Approved Successfully";
-      Redirect_to("Comments.php");
+      $_SESSION["SuccessMessage"] = "Comment approved successfully";
+      Redirect_to("comments.php");
     }
     else{
       $_SESSION["ErrorMessage"] = "Something went wrong, try again";
-      Redirect_to("Comments.php");
+      Redirect_to("comments.php");
     }
   }
 
