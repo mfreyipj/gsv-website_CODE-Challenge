@@ -38,11 +38,12 @@ if(isset($_POST["Submit"])){
   <head>
     <meta charset="utf-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-    <script src="js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <!-- <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script> -->
   </head>
   <body style="width: 40%; margin: auto;  background-color: white;">
 
