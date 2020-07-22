@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/weirdflex.css">
     <link rel=stylesheet href="css/stylesForAllMobile.css" media="screen and (min-width: 200px) and (max-width: 1000px)" >
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/dashboard.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
   </head>
   <body>
@@ -121,7 +122,7 @@
               $Total =array_shift($RowsTotal);?>
               <!--Only show the number if there are any unapproved comments-->
             <?php if($Total > 0){ ?>
-          <span class="alert alert-warning "><?php echo $Total;?></span>
+          <span class="count warning"><?php echo $Total;?></span>
         <?php } ?></a>
           </li>
           <li><a href="../Front-End/calendar.html">Kalender</a></li>
@@ -130,117 +131,134 @@
       </div>
 
 
-
+      <!-- In this container, the main content (right of the left side navigation) is stored.
+        On this page, the main content consists of two tables which contain data about approved and unapproved comments.
+      -->
       <div class="mainContent">
+
+        <!-- below the top navigation bar, possible success or error messages will pop up -->
         <?php echo Message();
         echo SuccessMessage();?>
-        
+
+        <!-- table-containers are divs in which the various tables of the admin-panel together with their headings are stored -->
+
+        <!-- This table-container contains the table of posts -->
         <div class="table-container">
+          <!-- heading of the table -->
+          <h3>Alle Posts</h3>
+          <table>
+            <!-- the table head which contains the column's names
+                Some column names have classes connected with them that define column-specific margins to the next column.
+            -->
+            <thead>
+              <tr>
+                <th>Nr.</th>
+                <th><span class="tableTitleHeadingSpan">Titel</span></th>
+                <th><span class="tableDateHeadingSpan">Datum</span></th>
+                <th><span class="tableNameHeadingSpan">Author</span></th>
+                <th><span class="tableCategoryHeadingSpan">Kategorie</span></th>
+                <th>Kommentar-Anzahl</th>
+                <th>Bearbeiten</th>
+                <th>Löschen</th>
+                <th>Details</th>
+              </tr>
+            </thead>
 
-              <h3>Alle Posts</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Nr.</th>
-                      <th><span class="tableTitleHeadingSpan">Titel</span></th>
-                      <th><span class="tableDateHeadingSpan">Datum</span></th>
-                      <th><span class="tableNameHeadingSpan">Author</span></th>
-                      <th><span class="tableCategoryHeadingSpan">Kategorie</span></th>
-                      <th>Kommentar-Anzahl</th>
-                      <th>Bearbeiten</th>
-                      <th>Löschen</th>
-                      <th>Details</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+            <!-- the table's body which contains the data rows -->
+            <tbody>
+              <!-- script to fetch the wanted data from the db -->
+              <?php
+                // query that fetches all posts
+                $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC;";
+                $Execute = mysqli_query($Connection, $ViewQuery);
+                // upcounting number at the beginning of each row
+                $PostNr = 0;
+                // as long as there still is data to be fetched this loop
+                //will echo the fetched data into the assigned table cells
+                // table cells are assigned with the given variables
+                while($DataRows = mysqli_fetch_array($Execute)){
+
+                  $Id = $DataRows["id"];
+                  $DateTime = $DataRows["datetime"];
+                  $Title = $DataRows["title"];
+                  $Category = $DataRows["category"];
+                  $Admin = $DataRows["author"];
+                  $Post = $DataRows["post"];
+                  $PostNr++;
+                  ?>
+                  <!-- table row into which the fetched data will be echoed -->
+                  <tr>
+                    <td><?php echo $PostNr; ?></td>
+                    <td><?php
+                      // function that shortens the table cells content to
+                      // a length of 20 characters and adds ... to it if the
+                      //limit is reached
+                      if(strlen($Title)>20){
+                        $Title = substr($Title,0,20)."...";
+                      }echo $Title;
+                     ?>
+                   </td>
+                    <td>
+                      <?php
+                      //same as above with 22 characters
+                      if(strlen($DateTime)>22){
+                        $DateTime = substr($DateTime,0,22)."..";
+                      }echo $DateTime; ?>
+                    </td>
+                    <td><?php
+                    //same as above with 20 characters
+                    if(strlen($Admin)>20){
+                      $Admin = substr($Admin,0,20)."..";
+                    }echo $Admin; ?></td>
+                    <td><?php
+                    //same as above with 8 characters
+                    if(strlen($Category)>8){
+                      $Category = substr($Category,0,8)."..";
+                    }
+                    echo $Category; ?></td>
+                    <td>
                     <?php
-                      $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC;";
-                      $Execute = mysqli_query($Connection, $ViewQuery);
-                      $PostNr = 0;
-                      while($DataRows = mysqli_fetch_array($Execute)){
-
-                        $Id = $DataRows["id"];
-                        $DateTime = $DataRows["datetime"];
-                        $Title = $DataRows["title"];
-                        $Category = $DataRows["category"];
-                        $Admin = $DataRows["author"];
-                        $Post = $DataRows["post"];
-                        $PostNr++;
+                        // query that fetches how many approved comments there
+                        // are that are connected with the given article
+                        $QueryApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'ON'";
+                        $ExecuteApproved = mysqli_query($Connection, $QueryApproved);
+                        $RowsApproved = mysqli_fetch_array($ExecuteApproved);
+                        $TotalApproved =array_shift($RowsApproved);?>
+                        <?php
+                          // if there are unapproved comments, their count will be
+                          // echoed
+                          if($TotalApproved > 0){
                         ?>
+                      <span class="count success"><?php echo $TotalApproved;?></span>
+                    <?php } ?>
+                    <?php
+                      // query that fetches how many unapproved comments there
+                      // are that are connected with the given article
+                      $QueryUnApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'OFF'";
+                      $ExecuteUnApproved = mysqli_query($Connection, $QueryUnApproved);
+                      $RowsUnApproved = mysqli_fetch_array($ExecuteUnApproved);
+                      $TotalUnApproved =array_shift($RowsUnApproved);?>
+                      <?php
+                        // if there are unapproved comments, their count will be
+                        // echoed
+                        if($TotalUnApproved > 0){
+                      ?>
+                    <span class="count failure"><?php echo $TotalUnApproved;?></span>
+                    <?php } ?>
 
-                        <tr>
-                          <td><?php echo $PostNr; ?></td>
-                          <td><?php
-                            if(strlen($Title)>20){
-                              $Title = substr($Title,0,20)."...";
-                            }echo $Title;
-                           ?>
-                         </td>
-                          <td>
-                            <?php
-                            if(strlen($DateTime)>22){
-                              $DateTime = substr($DateTime,0,22)."..";
-                            }echo $DateTime; ?>
-                          </td>
-                          <td><?php
-                          if(strlen($Admin)>20){
-                            $Admin = substr($Admin,0,20)."..";
-                          }echo $Admin; ?></td>
-                          <td><?php
-                          if(strlen($Category)>8){
-                            $Category = substr($Category,0,8)."..";
-                          }
+                    </td>
+                    <td><a href="EditPost.php?Edit=<?php echo $Id; ?>"><span class="">Bearbeiten</span> </a></td>
+                    <td><a href="DeletePost.php?Delete=<?php echo $Id; ?>"><span class="">Löschen</span> </a></td>
+                    <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>" target="_blank"> <span class="">Vorschau</span> </a></td>
+                </tr>
+                <?php } ?>
+            </tbody>
 
-                          echo $Category; ?></td>
-                          <td>
-                            <?php
-                              $QueryUnApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'OFF'";
-                              $ExecuteUnApproved = mysqli_query($Connection, $QueryUnApproved);
-                              $RowsUnApproved = mysqli_fetch_array($ExecuteUnApproved);
-                              $TotalUnApproved =array_shift($RowsUnApproved);?>
-                              <?php if($TotalUnApproved > 0){ ?>
-                            <span class="alert alert-danger"><?php echo $TotalUnApproved;?></span>
-                          <?php } ?>
-                            <?php
-                              $QueryApproved = "SELECT count(*) FROM comments WHERE admin_panel_id = '$Id' AND status = 'ON'";
-                              $ExecuteApproved = mysqli_query($Connection, $QueryApproved);
-                              $RowsApproved = mysqli_fetch_array($ExecuteApproved);
-                              $TotalApproved =array_shift($RowsApproved);?>
-                              <?php if($TotalApproved > 0){ ?>
-                            <span class="alert alert-success "><?php echo $TotalApproved;?></span>
-                          <?php } ?>
-
-
-                          </td>
-                          <td><a href="EditPost.php?Edit=<?php echo $Id; ?>"><span class="">Bearbeiten</span> </a></td>
-                          <td><a href="DeletePost.php?Delete=<?php echo $Id; ?>"><span class="">Löschen</span> </a></td>
-                          <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>" target="_blank"> <span class="">Vorschau</span> </a></td>
-                      </tr>
-                      <?php } ?>
-                  </tbody>
-
-                </table>
-
-
-            </div>
+          </table>
+        </div>
       </div>
 
     </div>
-
-<!-- -------------------------------------- footer -------------------------------------------- -->
-
-    <footer id="footer">
-
-        <!--impressum-->
-        <div><p> <a href="#" class="impressum">Impressum</a></p></div>
-
-        <!--Copyright-->
-
-        <div><p>Copyright &copy; Innovative Programming JTown</p></div>
-
-        <!--Zum Seitenanfang-->
-        <p><a href="#sanfang"><i id="arrowup" class="fas fa-angle-up"></i></a></p>
-    </footer>
 
 <!-- ------------------------------------ scripts ------------------------------------------------ -->
 

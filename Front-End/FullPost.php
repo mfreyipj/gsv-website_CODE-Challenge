@@ -1,30 +1,30 @@
-<?php  require_once('DB.php');?>
+<?php require_once('DB.php');?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
 <?php
   $PostId = $_GET["id"];
-  if(isset($_POST["Submit"])){
-    $Name = mysqli_real_escape_string($Connection,$_POST["Name"]);
-    $Email = mysqli_real_escape_string($Connection,$_POST["Email"]);
-    $Comment = mysqli_real_escape_string($Connection,$_POST["Comment"]);
+  if(isset($_POST["submit"])){
+
+    $Name = mysqli_real_escape_string($Connection,$_POST["name"]);
+    $Email = mysqli_real_escape_string($Connection,$_POST["email"]);
+    $Comment = mysqli_real_escape_string($Connection,$_POST["comment"]);
 
     $currentTime= time();
-    $DateTime = strftime("%B-%d-%Y %H:%M:%S", $currentTime);
+    $DateTime = strftime("%d. %B %Y", $currentTime);
     $DateTime;
 
     if(empty($Name)||empty($Email)||empty($Comment)){
-      $_SESSION["ErrorMessage"] = "All Fields are required";
+      $_SESSION["ErrorMessage"] = "All fields are required";
 
     }elseif(strlen($Comment)>500) {
       $_SESSION["ErrorMessage"] = "Comment can't be longer than 500 characters";
 
     }
     else{
-
-      $Query="INSERT INTO comments(datetime, name, email, comment, approvedby, status, admin_panel_id) VALUES('$DateTime', '$Name', '$Email', '$Comment','$Admin', 'OFF', '$PostId');";
+      $Query="INSERT INTO comments(datetime, name, email, comment, status, admin_panel_id) VALUES('$DateTime', '$Name', '$Email', '$Comment', 'ON', '$PostId');";
       $ExecuteQuery = mysqli_query($Connection, $Query);
       if($ExecuteQuery){
-        $_SESSION["SuccessMessage"] = "Comment Submitted Successfully";
+        $_SESSION["SuccessMessage"] = "Wir haben deinen Kommentar empfangen! Vielen Dank!";
         Redirect_to("FullPost.php?id={$PostId}");
       }
       else{
@@ -49,7 +49,8 @@
     <!--Stylesheet für Desktops (07-2019)-->
     <link rel="stylesheet" href="CSS/FullPost/fullPost.css" media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="CSS/CSSforAll/cssForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-      <link rel="stylesheet" href="css/weirdflex.css">
+    <link rel="stylesheet" href="../Back-End/css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <link rel="stylesheet" href="css/weirdflex.css">
     <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
   </head>
@@ -179,10 +180,11 @@
 
                <input class="form-control"type="email" name="email"  placeholder="Deine Email Adresse..." required> <br>
 
-               <textarea rows="4" cols="50" class="form-control message" placeholder="Dein Kommentar..."></textarea> <br>
+               <textarea rows="4" cols="50" class="form-control" name="comment" placeholder="Dein Kommentar..."></textarea> <br>
 
-               <input class="form-control submit" type="submit" value="Senden"> <br>
+               <input class="form-control submit" type="submit" name="submit" value="Senden"> <br>
            </form>
+
 
            <?php
             $PostId;
@@ -199,7 +201,6 @@
 
            <section class="comment">
              <br>
-             <img class="commentPortrait" src="../Back-End/Upload\170420-weed-prices.jpg">
              <p><?php echo $CommentName;?></p>
              <p><?php echo $CommentDate;?></p>
              <p class=""><?php echo nl2br($Comment);}?></p>

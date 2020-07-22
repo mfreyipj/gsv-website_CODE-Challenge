@@ -1,0 +1,22 @@
+/* div - container in which success or error
+messages will be displayed at fitting occasions*/
+.message{
+  padding: 1.5vh 1.5vw;
+  display: block;
+  border-radius: 40px;
+  color: #444;
+  margin: 2vh 0 4vh 2vw;
+}
+
+/* possible background colors of the message div or the comment counters*/
+.success{
+  background-color: rgba(61, 184, 67, 0.2);
+
+}
+.failure{
+  background-color: rgb(239, 68, 68, 0.34);
+}
+
+.warning{
+  background-color: rgb(251, 232, 95, 0.72);
+}

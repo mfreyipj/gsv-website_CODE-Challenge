@@ -197,25 +197,16 @@ nav ul li a:hover{
     color:white;
     z-index: 0;
 }
-
-/* div - container in which success or error
-messages will be displayed at fitting occasions*/
-.message{
-  padding: 1.5vh 1.5vw;
-  display: block;
-  border-radius: 40px;
-  color: #444;
-  margin: 2vh 0 4vh 2vw;
+/* span - in these spans comment counters that display e.g.
+the amount of uanpproved comments are located
+Their background-color stylings are located in messages.css. */
+.count{
+  padding: 0.5vh 0.5vw;
+  border-radius: 5px;
+  margin: 0 0.5vw;
 }
 
-/* possible background colors of the message div */
-.success{
-  background-color: rgba(61, 184, 67, 0.2);
 
-}
-.failure{
-  background-color: rgb(239, 68, 68, 0.34);
-}
 
 /* div - This container contains every content
 that is located between the top navigation
@@ -319,6 +310,12 @@ table th:last-of-type, table td:last-of-type{
   padding-right: 1vw;
 }
 
+table td a{
+  color: #444;
+
+}
+
+
 /* The following classes are used to define special margins
 between table-columns */
 
@@ -348,6 +345,10 @@ of the admin-panel are stored */
 
 .form-container{
   margin-left: 2vw;
+}
+
+fieldset{
+  border:none;
 }
 
 /* styles for every input field of the admin panel */

@@ -8,11 +8,12 @@
     <meta charset="utf-8">
     <title>Admin Dashboard</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-    <script src="js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <!-- <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script> -->
     <link rel="stylesheet" href="css/weirdflex.css">
   </head>
   <body>
@@ -112,7 +113,7 @@
                 $Total =array_shift($RowsTotal);?>
                 <!--Only show the number if there are any unapproved comments-->
               <?php if($Total > 0){ ?>
-            <span class="alert alert-warning "><?php echo $Total;?></span>
+            <span class="count warning"><?php echo $Total;?></span>
           <?php } ?></a>
             </li>
             <li><a href="../Front-End/calendar.html">Kalender</a></li>
@@ -171,7 +172,7 @@
                     $PostId = $DataRows["admin_panel_id"];
                     $SrNr++;
                  ?>
-                 <!-- table row in which the fetched data will be echoed -->
+                 <!-- table row into which the fetched data will be echoed -->
                 <tr>
                   <td><?php echo htmlentities($SrNr); ?></td>
                   <td><?php echo htmlentities($CommentAuthor); ?></td>
