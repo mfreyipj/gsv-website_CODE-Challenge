@@ -2,47 +2,6 @@
 <?php require_once('include/Sessions.php'); ?>
 <?php require_once('include/Functions.php'); ?>
 <?php confirmLogin(); ?>
-<?php
-  if(isset($_POST["Submit"])){
-    $Title = mysqli_real_escape_string($Connection,$_POST["Title"]);
-    $Category = mysqli_real_escape_string($Connection,$_POST["Category"]);
-    $Post = mysqli_real_escape_string($Connection,$_POST["Post"]);
-
-    date_default_timezone_set("Europe/Berlin");
-    setlocale(LC_TIME, 'deu_deu');
-    $currentTime= time();
-    $DateTime = strftime("%d. %B %Y", $currentTime);
-    $DateTime;
-    $Admin=$_SESSION["Username"];
-    $Image = $_FILES["Image"]["name"];
-    $Target="Upload/".basename($_FILES["Image"]["name"]);
-    if(empty($Title)){
-      $_SESSION["ErrorMessage"] = "Title can't be empty";
-      Redirect_to("AddNewPost.php");
-    }elseif(strlen($Title)<3) {
-      $_SESSION["ErrorMessage"] = "Title should be longer than 2 characters";
-      Redirect_to("AddNewPost.php");
-    }
-    else{
-
-      $Query="INSERT INTO admin_panel(datetime,title,category,author,image,post) VALUES('$DateTime','$Title','$Category','$Admin','$Image','$Post')";
-      $Execute=mysqli_query($Connection,$Query);
-      move_uploaded_file($_FILES["Image"]["tmp_name"], $Target);
-      if($Execute){
-        $_SESSION["SuccessMessage"] = "Added post successfully";
-        Redirect_to("allPosts.php");
-      }
-      else{
-        $_SESSION["ErrorMessage"] = "Something went wrong, your post could not be added";
-        Redirect_to("AddNewPost.php");
-      }
-
-    }
-
-
-
-  }
-?>
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
   <head>
@@ -124,12 +83,8 @@
             </div>
         </nav>
 
-
-
-
     <div class="container-fluid">
       <div class="row">
-
 
 
         <!-- In this container, the navigation bar at the left of every admin panel page is defined.
@@ -141,8 +96,9 @@
 
           <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="allPosts.php">Alle Artikel</a></li>
-            <li><a href="AddNewPost.php" class="active">Neuer Artikel</a></li>
+            <li><a href="posts.php">Alle Artikel</a></li>
+            <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
+            <li><a href="createPost.php">Neuer Artikel</a></li>
             <li><a href="categories.php">Post-Kategorien</a></li>
             <li><a href="#">Kontakt-Inbox</a></li>
             <li><a href="admins.php">Admin-Verwaltung</a></li>
@@ -166,41 +122,46 @@
 
 
         <div class="mainContent">
-          <h1>Add New Post</h1>
+          <h1>Delete Post</h1>
           <?php echo Message();
           echo SuccessMessage();?>
           <div class="">
-            <form class="" action="AddNewPost.php" method="post" enctype="multipart/form-data">
+            <?php
+              $SearchQueryParameter = $_GET['Delete'];
+              $Query = "SELECT * FROM admin_panel WHERE id = '$SearchQueryParameter';";
+              $ExecuteQuery = mysqli_query($Connection, $Query);
+              while($DataRows = mysqli_fetch_array($ExecuteQuery)){
+                $TitleToBeUpdated = $DataRows["title"];
+                $CategoryToBeUpdated = $DataRows["category"];
+                $ImageToBeUpdated = $DataRows["image"];
+                $PostToBeUpdated = $DataRows["post"];
+              }
+
+            ?>
+            <form class="" action="deletePost.php?Delete=<?php echo $_GET["Delete"];  ?>" method="post" enctype="multipart/form-data">
               <fieldset>
                 <div class="form-group">
                   <label for="Title">Title:</label>
-                  <input type="text" name="Title" value="" id="Title" placeholder="Title">
+                  <input disabled class="form-control"type="text" name="Title" value="<?php echo $TitleToBeUpdated; ?>" id="Title" placeholder="Title" >
                 </div>
                 <div class="form-group">
-                  <label for="categoryselect"><span class="FieldInfo">Category: </span></label>
-                  <select class="form-control" id="categoryselect" name="Category">
-                    <?php
-                      $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
-                      $Execute = mysqli_query($Connection, $ViewQuery);
+                  <span class="FieldInfo">Category: <?php echo $CategoryToBeUpdated; ?></span>
+                  <br>
 
-                      while($DataRows = mysqli_fetch_array($Execute)){
-                        $Category = $DataRows["name"];
-                     ?>
-                     <option><?php echo $Category; ?></option>
-                   <?php } ?>
-                 </select>
                 </div>
                 <div class="form-group">
-                  <label for="imageselect">Select Image:</label>
-                  <input type="File" name="Image" id="imageselect" value="">
+                  <span class="FieldInfo">Image:</span>
+                  <img src="Upload/<?php echo $ImageToBeUpdated; ?>" height: "70px" width: "200px">
+                  <br>
+
                 </div>
                 <div class="form-group">
                   <label for="postarea">Post:</label>
-                  <textarea class="form-control" name="Post" id="postarea" rows=10></textarea>
+                  <textarea disabled class="form-control" name="Post" id="postarea" rows=10><?php echo $PostToBeUpdated; ?></textarea>
                 </div>
 
 
-                <input class="btn btn-default" type="submit" name="Submit" value="Add New Post">
+                <input class="btn btn-danger" type="submit" name="Submit" value="Delete Post">
               </fieldset>
             </form>
           </div>
@@ -212,7 +173,8 @@
       </div>
     </div>
 
-    <script src="js/script.js"></script>
+  <script src="js/script.js"></script>
+
 
 
   </body>

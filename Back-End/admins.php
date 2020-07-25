@@ -5,12 +5,12 @@
 <?php
 
 
-if(isset($_POST["Submit"])){
-  $Username = mysqli_real_escape_string($Connection,$_POST["Username"]);
-  $Password = mysqli_real_escape_string($Connection,$_POST["Password"]);
-  $ConfirmPassword = mysqli_real_escape_string($Connection,$_POST["ConfirmPassword"]);
+if(isset($_POST["submit"])){
+  $Username = mysqli_real_escape_string($Connection,$_POST["username"]);
+  $Password = mysqli_real_escape_string($Connection,$_POST["password"]);
+  $ConfirmPassword = mysqli_real_escape_string($Connection,$_POST["confirmPassword"]);
   $currentTime= time();
-  $DateTime = strftime("%B-%d-%Y %H:%M:%S", $currentTime);
+  $DateTime = strftime("%d. %B %Y", $currentTime);
   $DateTime;
   $Admin=$_SESSION["Username"];
   if(empty($Username)||empty($Password)||empty($ConfirmPassword)){
@@ -54,6 +54,7 @@ if(isset($_POST["Submit"])){
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <link rel="stylesheet" href="css/bigTable.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <!-- <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script> -->
   </head>
@@ -127,8 +128,10 @@ if(isset($_POST["Submit"])){
                 <img class="logonavMobile" src="IMG/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
             </div>
         </nav>
-    <div class="container-fluid">
-      <div class="row">
+
+
+
+      <div class="wrapper">
 
 
         <!-- In this container, the navigation bar at the left of every admin panel page is defined.
@@ -140,13 +143,14 @@ if(isset($_POST["Submit"])){
 
           <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="allPosts.php">Alle Artikel</a></li>
+            <li><a href="posts.php">Alle Artikel</a></li>
+            <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
             <li><a href="AddNewPost.php">Neuer Artikel</a></li>
             <li><a href="categories.php">Post-Kategorien</a></li>
             <li><a href="#">Kontakt-Inbox</a></li>
             <li><a href="admins.php" class="active">Admin-Verwaltung</a></li>
             <li><a href="#">Über Uns</a></li>
-            <li><a href="comments.php">Comments
+            <li><a href="comments.php">Kommentare
               <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
               <?php
                 $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
@@ -163,49 +167,48 @@ if(isset($_POST["Submit"])){
           </ul>
         </div>
 
-
+        <!-- In this container, the main content (right of the
+          left side navigation) is stored. On this page, the main content
+          consists of a table which contains data about the existing post
+          categories and of a form with which the user can add a
+          new category to the db.
+        -->
         <div class="mainContent">
-          <h1>Manage Admin Access</h1>
+
+          <!-- below the top navigation bar, possible success or error
+          messages will pop up -->
           <?php echo Message();
           echo SuccessMessage();?>
-          <div class="">
-            <form class="" action="admins.php" method="post">
 
-                <fieldset>
-                  <div class="form-group">
-                  <label for="Username">Username:</label>
-                  <input type="text" name="Username" value="" id="Username" placeholder="Username" class="form-control">
-                  </div>
-              <div class="form-group">
-                  <label for="Password">Name:</label>
-                  <input type="password" name="Password" value="" id="Password" placeholder="Password" class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="ConfirmPassword">Name:</label>
-                  <input class="form-control" type="password" name="ConfirmPassword" value="" id="ConfirmPassword" placeholder="Retype your Password">
+          <!-- heading of the page -->
+          <h3>Admins verwalten</h3>
 
-                </fieldset>
-              </div>
-              <br>
-              <input class="btn btn-default" type="submit" name="Submit" value="Add New Admin">
+          <!-- table-containers are divs in which the various tables of the
+          admin-panel together with their headings are stored -->
 
-
-            </form>
-            <br>
-            <div class="table-responsive">
-              <br>
-              <table class="table table-striped">
+          <!-- This table-container contains the table of admins -->
+          <div class="table-container">
+            <table>
+              <!-- the table head which contains the column's name -->
+              <thead>
                 <tr>
-                  <th>Nr</th>
-                  <th>Date & Time</th>
-                  <th>Admin</th>
-                  <th> Added By</th>
-                  <th>Action</th>
+                  <th>Nr.</th>
+                  <th>Erstellt am</th>
+                  <th>Benutzername</th>
+                  <th>Hinzugefügt von</th>
+                  <th>Löschen</th>
                 </tr>
+              </thead>
+              <!-- the table's body which contains the data rows -->
+              <tbody>
                 <?php
+                  // query that fetches the categories from the db
                   $ViewQuery = "SELECT * FROM registration ORDER BY id DESC";
                   $Execute = mysqli_query($Connection, $ViewQuery);
                   $SrNr = 0;
+                  // As long as there still is data to be fetched this loop will
+                  // echo the fetched data into the assigned table cells.
+                  // table cells are assigned with the given variables
                   while($DataRows = mysqli_fetch_array($Execute)){
                     $Id = $DataRows["id"];
                     $DateTime = $DataRows["datetime"];
@@ -214,20 +217,44 @@ if(isset($_POST["Submit"])){
                     $SrNr++;
 
                  ?>
+                 <!-- table row in which the fetched data will be echoed -->
                  <tr>
                    <td><?php echo $SrNr; ?></td>
                    <td><?php echo $DateTime; ?></td>
                    <td><?php echo $Username; ?></td>
                    <td><?php echo $AddedBy; ?></td>
-                   <td><a href="DeleteAdmin.php?id=<?php echo $Id ?> "><span class="btn btn-danger">Delete</span> </a> </td>
+                   <td><a href="DeleteAdmin.php?id=<?php echo $Id ?> "><span>Löschen</span> </a> </td>
                  </tr>
                  <?php } ?>
-              </table>
-            </div>
+              </tbody>
+
+            </table>
           </div>
 
+          <!-- form-containers are divs in which the various forms of the
+          admin-panel are stored -->
+
+          <!-- This form-container contains a form which is used to add new
+            categories to the categories table-->
+          <div class="form-container">
+            <form class="" action="admins.php" method="post">
+                <fieldset>
+                  <legend>Neuen Admin hinzufügen:</legend>
+                  <!-- input field for the admin's name -->
+                  <!-- <label for="username">Benutzername:</label><br> -->
+                  <input type="text" name="username" value="" id="Username" placeholder="Benutzername" class="form-control"><br>
+                  <!-- input field for the password -->
+                  <!-- <label for="password">Passwort:</label><br> -->
+                  <input type="password" name="password" value="" id="Password" placeholder="Passwort" class="form-control"><br>
+                  <!-- input field for retyping the password -->
+                  <!-- <label for="confirmPassword">Password bestätigen:</label><br> -->
+                  <input class="form-control" type="password" name="confirmPassword" value="" id="ConfirmPassword" placeholder="Password bestätigen"><br>
+                  <!-- submit button -->
+                  <input class="btnSubmit" type="submit" name="submit" value="Konto erstellen">
+                </fieldset>
+            </form>
+          </div>
         </div>
-      </div>
     </div>
 
     <script src="js/script.js"></script>

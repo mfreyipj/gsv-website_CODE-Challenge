@@ -8,7 +8,7 @@
 if(isset($_POST["Submit"])){
   $Category = mysqli_real_escape_string($Connection,$_POST["Category"]);
   $currentTime= time();
-  $DateTime = strftime("%B-%d-%Y %H:%M:%S", $currentTime);
+  $DateTime = strftime("%d. %B %Y", $currentTime);
   $DateTime;
   $Admin=$_SESSION["Username"];
   if(empty($Category)){
@@ -47,7 +47,7 @@ if(isset($_POST["Submit"])){
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-    <link rel="stylesheet" href="css/categoriesD.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <link rel="stylesheet" href="css/bigTable.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <!-- <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script> -->
@@ -137,13 +137,14 @@ if(isset($_POST["Submit"])){
 
         <ul>
           <li><a href="dashboard.php">Dashboard</a></li>
-          <li><a href="allPosts.php">Alle Artikel</a></li>
-          <li><a href="AddNewPost.php">Neuer Artikel</a></li>
+          <li><a href="posts.php">Alle Artikel</a></li>
+          <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
+          <li><a href="createNewPost.php">Neuer Artikel</a></li>
           <li><a href="categories.php" class="active">Post-Kategorien</a></li>
           <li><a href="#">Kontakt-Inbox</a></li>
           <li><a href="admins.php">Admin-Verwaltung</a></li>
           <li><a href="#">Über Uns</a></li>
-          <li><a href="comments.php">Comments
+          <li><a href="comments.php">Kommentare
             <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
             <?php
               $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
@@ -196,7 +197,7 @@ if(isset($_POST["Submit"])){
             <!-- the table's body which contains the data rows -->
             <tbody>
               <?php
-              // query that fetches the categories from the db
+                // query that fetches the categories from the db
                 $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
                 $Execute = mysqli_query($Connection, $ViewQuery);
                 $SrNr = 0;
@@ -233,16 +234,15 @@ if(isset($_POST["Submit"])){
         <div class="form-container">
           <form class="" action="categories.php" method="post">
             <fieldset>
-              <label for="categoryname">Name:</label><br>
+              <legend>Neue Kategorie:</legend>
               <!-- input field for the category name -->
               <input type="text" name="Category" value="" id="categoryname" placeholder="Name"><br>
               <!-- submit button -->
-              <input class="btnSubmit" type="submit" name="Submit" value="Add New Category">
+              <input class="btnSubmit" type="submit" name="Submit" value="Kategorie erstellen">
             </fieldset>
           </form>
         </div>
       </div>
-
     </div>
 
 

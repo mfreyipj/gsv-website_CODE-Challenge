@@ -98,8 +98,9 @@
 
           <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="allPosts.php">Alle Artikel</a></li>
-            <li><a href="AddNewPost.php">Neuer Artikel</a></li>
+            <li><a href="posts.php">Alle Artikel</a></li>
+            <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
+            <li><a href="createNewPost.php">Neuer Artikel</a></li>
             <li><a href="categories.php">Post-Kategorien</a></li>
             <li><a href="#">Kontakt-Inbox</a></li>
             <li><a href="admins.php">Admin-Verwaltung</a></li>

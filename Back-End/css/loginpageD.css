@@ -1,0 +1,11 @@
+.mainContent h3{
+  margin-left: 0;
+}
+
+
+.form-container{
+  width: 50vw;
+  height: 50vh;
+  margin: 25vh 7vw 25vh 42vw;
+  background-color: white;
+}

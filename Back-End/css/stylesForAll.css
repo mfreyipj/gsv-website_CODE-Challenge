@@ -214,7 +214,7 @@ bar and the footer */
 .wrapper{
   display: flex;
   flex-direction: row;
-  height: 92vh;
+  overflow: visible;
 }
 
 
@@ -350,7 +350,9 @@ of the admin-panel are stored */
 fieldset{
   border:none;
 }
-
+legend{
+  margin-bottom: 1vh;
+}
 /* styles for every input field of the admin panel */
 form input{
   margin: 1.5vh 0;
@@ -358,6 +360,7 @@ form input{
   border: 1px solid #ddd;
   padding: 0.5vh 0.5vw;
   color: #444;
+  font-size: 1.8vh;
 }
 form input:focus{
   border: 1px solid #999;

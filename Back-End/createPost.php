@@ -2,61 +2,20 @@
 <?php require_once('include/Sessions.php'); ?>
 <?php require_once('include/Functions.php'); ?>
 <?php confirmLogin(); ?>
-<?php
-  if(isset($_POST["Submit"])){
-    $Title = mysqli_real_escape_string($Connection,$_POST["Title"]);
-    $Category = mysqli_real_escape_string($Connection,$_POST["Category"]);
-    $Post = mysqli_real_escape_string($Connection,$_POST["Post"]);
-    date_default_timezone_set("Europe/Berlin");
-    setlocale(LC_TIME, 'deu_deu');
-    $currentTime= time();
-    $DateTime = strftime("%d. %B %Y", $currentTime);
-    $DateTime;
-    $Admin="Matthias Frey";
-    $Image = $_FILES["Image"]["name"];
-    $Target="Upload/".basename($_FILES["Image"]["name"]);
-    if(empty($Title)){
-      $_SESSION["ErrorMessage"] = "Title can't be empty";
-      Redirect_to("AddNewPost.php");
-    }elseif(strlen($Title)<3) {
-      $_SESSION["ErrorMessage"] = "Title should be longer than 2 characters";
-      Redirect_to("AddNewPost.php");
-    }
-    else{
-      $EditFromURL = $_GET["Edit"];
-      $Query= "UPDATE admin_panel SET datetime ='$DateTime', title = '$Title', category = '$Category', author = '$Admin', image = '$Image', post = '$Post' WHERE id = '$EditFromURL';";
 
-      $Execute=mysqli_query($Connection,$Query);
-      move_uploaded_file($_FILES["Image"]["tmp_name"], $Target);
-      if($Execute){
-        $_SESSION["SuccessMessage"] = "Post updated successfully";
-        Redirect_to("dashboard.php");
-      }
-      else{
-        $_SESSION["ErrorMessage"] = "Something went wrong, try again";
-        Redirect_to("AddNewPost.php");
-      }
-
-    }
-
-
-
-  }
-?>
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>Admin Dashboard</title>
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-    <!-- <script src="js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script> -->
+    <link rel="stylesheet" href="css/createNewPostD.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <script src="https://cdn.tiny.cloud/1/tzq2o85s4sy6w1wuy9fn4q9eyy60mz302wwpxji33z8r5l1h/tinymce/5/tinymce.min.js" referrerpolicy="origin"/></script>
   </head>
   <body>
-
 
     <!-- -------------------------------------- navbar top -------------------------------------- -->
           <!--- In this container, the navigation bar at the top of every admin panel page is defined.
@@ -124,8 +83,13 @@
                 <img class="logonavMobile" src="IMG/gsvGemontLogoWeissTransparent.png" alt="gemontlogo">
             </div>
         </nav>
-    <div class="container-fluid">
-      <div class="row">
+
+
+
+
+    <div class="wrapper">
+
+
 
 
         <!-- In this container, the navigation bar at the left of every admin panel page is defined.
@@ -137,8 +101,9 @@
 
           <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="allPosts.php">Alle Artikel</a></li>
-            <li><a href="AddNewPost.php">Neuer Artikel</a></li>
+            <li><a href="posts.php">Alle Artikel</a></li>
+            <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
+            <li><a href="createPost.php" class="active">Neuer Artikel</a></li>
             <li><a href="categories.php">Post-Kategorien</a></li>
             <li><a href="#">Kontakt-Inbox</a></li>
             <li><a href="admins.php">Admin-Verwaltung</a></li>
@@ -160,74 +125,149 @@
           </ul>
         </div>
 
-
+        <!-- In this container, the main content (right of the left side navigation) is stored.
+          On this page, the main content consists of a form that is used to
+          create new posts.
+        -->
         <div class="mainContent">
-          <h1>Edit Post</h1>
+
+          <!-- below the top navigation bar, possible success or error
+          messages will pop up -->
           <?php echo Message();
           echo SuccessMessage();?>
-          <div class="">
-            <?php
-              $SearchQueryParameter = $_GET['Edit'];
+
+
+          <!-- form-containers are divs in which the various forms of the
+          admin-panel are stored -->
+
+          <!-- This form-container contains a form which is used to
+          create new posts -->
+
+          <?php
+            date_default_timezone_set("Europe/Berlin");
+            setlocale(LC_TIME, 'deu_deu');
+            $currentTime= time();
+            $DateTime = strftime("%d. %B %Y", $currentTime);
+            if($_GET["id"]){
+              $SearchQueryParameter = $_GET['id'];
               $Query = "SELECT * FROM admin_panel WHERE id = '$SearchQueryParameter';";
               $ExecuteQuery = mysqli_query($Connection, $Query);
               while($DataRows = mysqli_fetch_array($ExecuteQuery)){
                 $TitleToBeUpdated = $DataRows["title"];
                 $CategoryToBeUpdated = $DataRows["category"];
+                $AuthorToBeUpdated = $DataRows["author"];
                 $ImageToBeUpdated = $DataRows["image"];
                 $PostToBeUpdated = $DataRows["post"];
               }
+            }
 
-            ?>
-            <form class="" action="EditPost.php?Edit=<?php echo $_GET["Edit"];  ?>" method="post" enctype="multipart/form-data">
+
+
+          ?>
+
+          <div class="form-container">
+            <form id="addNewPostForm"class="" action="postAction.php" method="post" enctype="multipart/form-data">
               <fieldset>
-                <div class="form-group">
-                  <label for="Title">Title:</label>
-                  <input class="form-control"type="text" name="Title" value="<?php echo $TitleToBeUpdated; ?>" id="Title" placeholder="Title" >
-                </div>
-                <div class="form-group">
-                  <span class="FieldInfo">Existing Category: <?php echo $CategoryToBeUpdated; ?></span>
-                  <br><br>
-                  <label for="categoryselect"><span class="FieldInfo">New Category: </span></label>
-                  <select class="form-control" id="categoryselect" name="Category">
-                    <?php
-                      $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
-                      $Execute = mysqli_query($Connection, $ViewQuery);
-
-                      while($DataRows = mysqli_fetch_array($Execute)){
-                        $Category = $DataRows["name"];
-                     ?>
-                     <option><?php echo $Category; ?></option>
-                   <?php } ?>
-                 </select>
-                </div>
-                <div class="form-group">
-                  <span class="FieldInfo">Existing Image:</span>
-                  <img src="Upload/<?php echo $ImageToBeUpdated; ?>" height: "70px" width: "200px">
-                  <br>
-                  <label for="imageselect">Select Image:</label>
-                  <input type="File" name="Image" id="imageselect" value="">
-                </div>
-                <div class="form-group">
-                  <label for="postarea">Post:</label>
-                  <textarea class="form-control" name="Post" id="postarea" rows=10><?php echo $PostToBeUpdated; ?></textarea>
-                </div>
+                <div class="title-container">
+                  <h2><input type="text" name="Title" value="<?php echo $TitleToBeUpdated;?>" id="title" placeholder="Titel" autocomplete="off"required>
+                  <span class="timestamp"><?php echo htmlentities($DateTime); ?><span></h2>
 
 
-                <input class="btn btn-default" type="submit" name="Submit" value="Update Post">
+                </div>
+
+                  <!-- Select field to give the article a category -->
+                 <!-- input field for the post banner -->
+
+                 <div class="image-container">
+                   <img id="uploadPreview" style="border: 1px solid #ddd;" src="Upload/<?php if(!$_GET["id"]){ echo "gsvGemontLogo.jpg"; }else{ echo $ImageToBeUpdated;}  ?>"/><br>
+                   <span id="watermark"><span>(Standard)</span></span>
+                   <!-- <br>
+                   <label for="Post">Post:</label><br> -->
+                 </div>
+                 <label for="imageselect">Banner: </label>
+                 <input type="File" name="Image" id="imageselect" value="<?php echo $ImageToBeUpdated; ?>" onChange="previewImage();"><br>
+                <!-- tinyMCE rich text editor that is used to
+                create the posts main content-->
+
+                <textarea id="tinyPostTextArea" name="Post" rows="20" cols="60">
+
+
+                  <?php echo $PostToBeUpdated ?>
+                </textarea>
+                <label for="categoryselect"><span class="FieldInfo hiddenOnDesktop">Category: </span></label>
+                <select class="form-control hiddenOnDesktop" id="categoryselect" name="Category">
+                  <?php
+                    $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
+                    $Execute = mysqli_query($Connection, $ViewQuery);
+
+                    while($DataRows = mysqli_fetch_array($Execute)){
+                      $Category = $DataRows["name"];
+                   ?>
+                   <option <?php if($Category == $CategoryToBeUpdated){ echo "selected";} ?>><?php echo $Category; ;?></option>
+                 <?php } ?>
+               </select>
+               <div class="author-container">
+                 <label for="inputAuthor">geschrieben von</label>
+                 <input type="text" id="inputAuthor" name="author" value="<?php echo $AuthorToBeUpdated ?>" placeholder="Author"><br>
+               </div>
+               <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
+                <!-- submit button -->
+                <input class="btnSubmit" type="submit" name="Submit" value="Posten">
+                <input class="btnSubmit" type="submit" name="Preview" value="Vorschau">
+                <input class="btnSubmit" type="submit" name="saveAsDraft" value="Entwurf speichern">
+                <input class="btnSubmit" type="submit" name="deletePost" value="Post löschen">
+
+                <!-- <button class="btnSubmit" name="deletePost" onclick="window.location.href='deletePost.php?Delete=<?php echo $_GET["id"];  ?>'"type="button" name="button"></button> -->
               </fieldset>
             </form>
+
+
           </div>
-
-
-
-
         </div>
       </div>
-    </div>
+
+
 
     <script src="js/script.js"></script>
+    <script type="text/javascript">
+
+      function previewImage() {
+          // initiating a new file reader
+          var oFReader = new FileReader();
+
+          // if the the created filereader has received an input
+          // a progressEvent is triggered by the fileReader (target) on which the
+          // following function is based
+          oFReader.onload = function (event) {
+            // change the source of the given element to the result of the event
+            // which is the data of the base64 encoded image data Url
+            document.getElementById("uploadPreview").src = event.target.result;
+            var span = document.getElementById('watermark');
+            while( span.firstChild ) {
+                span.removeChild( span.firstChild );
+            }
+            // span.appendChild( document.createTextNode("some new content") );
+          };
+
+          //if the read operation is finished, the result attribute of the event
+          // contains the data as a dataUrl which represents it as a base64 encoded string
+          oFReader.readAsDataURL(document.getElementById("imageselect").files[0]);
 
 
+      };
+
+    </script>
+    <!-- initiation and config script of the tinyMCE editor -->
+    <script>
+      tinymce.init({
+        selector: '#tinyPostTextArea',
+        placeholder: 'Post-Inhalt...',
+        content_css: '/website-repo/Back-End/css/createNewPostD.css',
+        plugins: 'lists image imagetools',
+        menubar: 'edit view insert format',
+        toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | image | removeformat',
+      });
+    </script>
 
 
   </body>

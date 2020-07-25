@@ -57,11 +57,24 @@
   <body>
 
 
+
+
       <!--Bookmark zum Seitenanfang-->
       <div id="sanfang"> Copyright &copy; Innovative Programming JTown </div>
 
       <!--- Navigations-/Menubar-->
       <nav>
+
+
+        <?php
+          if($_GET["preview"] == 'true'){
+            $PostId = $_GET["id"];
+            echo '<form class="" action="../Back-End/deletePost.php?Delete='.$PostId.'" method="post">
+              <input type="submit" name="EndPreview" value="Preview Beenden">
+            </form>';
+          }
+
+        ?>
 
           <!--DropdownContainer-->
           <div class="dropdown navElement">
@@ -138,6 +151,7 @@
               }
 
               $Execute = mysqli_query($Connection, $ViewQuery);
+
               while($DataRows = mysqli_fetch_array($Execute)){
 
                 $Id = $DataRows["id"];
@@ -152,12 +166,12 @@
              ?>
              <?php echo Message();
              echo SuccessMessage();?>
-                <h1><?php echo htmlentities($Title); ?> <span class="timestamp"><?php echo htmlentities($DateTime); ?><span></h1>
+             <div class="title-container">
+               <h2 class="postTitle"><?php echo htmlentities($Title); ?> <span class="timestamp"><?php echo htmlentities($DateTime); ?><span></h2>
+                 <br>
+               <h3><?php echo htmlentities($SubTitle); ?></h3>
+             </div>
 
-                <br>
-                <hr>
-                <br>
-                <h3><?php echo htmlentities($SubTitle); ?></h3>
                 <!-- <br> -->
 
 

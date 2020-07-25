@@ -18,7 +18,7 @@ if(isset($_POST["Submit"])){
     $_SESSION["Username"] = $FoundAccount["username"];
     if($FoundAccount){
       $_SESSION["SuccessMessage"] = "Welcome {$_SESSION["Username"]} !";
-      Redirect_to("allPosts.php");
+      Redirect_to("posts.php");
     }
     else{
       $_SESSION["ErrorMessage"] = "Invalid username/password";
@@ -38,42 +38,37 @@ if(isset($_POST["Submit"])){
   <head>
     <meta charset="utf-8">
     <title>Admin Dashboard</title>
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+
     <link rel="stylesheet" href="css/adminstyles.css">
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-    <!-- <script src="js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script> -->
+    <link rel="stylesheet" href="css/loginpageD.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+
   </head>
-  <body style="width: 40%; margin: auto;  background-color: white;">
+  <body>
+    <div class="mainContent">
+      <?php echo Message();
+      echo SuccessMessage();?>
+
+      <div class="form-container">
+          <h3>Login</h3>
+          <form class="" action="loginpage.php" method="post">
+                <label for="Username"></label>
+                <input type="text" name="Username" id="Username" placeholder="Username" class="form-control"><br>
+
+                <label for="Password"></label>
+                <input type="password" name="Password" id="Password" placeholder="Password" class="form-control">
 
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-          <h1>Login</h1>
-          <?php echo Message();
-          echo SuccessMessage();?>
-
-            <form class="" action="loginpage.php" method="post">
+            <br>
+            <input class="btnSubmit" type="submit" name="Submit" value="Weiter">
 
 
-                  <div class="form-group">
-                  <label for="Username">Username:</label>
-                  <input type="text" name="Username" id="Username" placeholder="Username" class="form-control">
-                  </div>
-              <div class="form-group">
-                  <label for="Password">Name:</label>
-                  <input type="password" name="Password" id="Password" placeholder="Password" class="form-control">
-              </div>
-
-              <br>
-              <input class="btn btn-default" type="submit" name="Submit" value="Weiter">
+          </form>
+      </div>
+    </div>
 
 
-            </form>
 
 
 

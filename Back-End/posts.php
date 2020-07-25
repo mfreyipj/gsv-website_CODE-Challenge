@@ -107,8 +107,9 @@
 
         <ul>
           <li><a href="dashboard.php">Dashboard</a></li>
-          <li><a href="allPosts.php" class="active">Alle Artikel</a></li>
-          <li><a href="AddNewPost.php">Neuer Artikel</a></li>
+          <li><a href="posts.php" class="<?php if($_GET["drafts"]){ echo "";} else{ echo "active";}?>">Alle Artikel</a></li>
+          <li><a href="posts.php?drafts=true" class="<?php if($_GET["drafts"]){ echo "active";} else{ echo "";}?>">Alle Entwürfe</a></li>
+          <li><a href="createPost.php">Neuer Artikel</a></li>
           <li><a href="categories.php">Post-Kategorien</a></li>
           <li><a href="#">Kontakt-Inbox</a></li>
           <li><a href="admins.php">Admin-Verwaltung</a></li>
@@ -145,7 +146,7 @@
         <!-- This table-container contains the table of posts -->
         <div class="table-container">
           <!-- heading of the table -->
-          <h3>Alle Posts</h3>
+          <h3>Alle <?php if($_GET["drafts"]){ echo "Entwürfe";} else{ echo "Posts";}?> </h3>
           <table>
             <!-- the table head which contains the column's names
                 Some column names have classes connected with them that define column-specific margins to the next column.
@@ -168,8 +169,16 @@
             <tbody>
               <!-- script to fetch the wanted data from the db -->
               <?php
-                // query that fetches all posts
-                $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC;";
+
+                if($_GET["drafts"]){
+                  $ViewQuery = "SELECT * FROM admin_panel WHERE hidden = 1 ORDER BY id DESC;";
+                }
+                else{
+                  // query that fetches all posts
+                  $ViewQuery = "SELECT * FROM admin_panel WHERE hidden = 0 ORDER BY id DESC;";
+                }
+
+
                 $Execute = mysqli_query($Connection, $ViewQuery);
                 // upcounting number at the beginning of each row
                 $PostNr = 0;
@@ -247,8 +256,8 @@
                     <?php } ?>
 
                     </td>
-                    <td><a href="EditPost.php?Edit=<?php echo $Id; ?>"><span class="">Bearbeiten</span> </a></td>
-                    <td><a href="DeletePost.php?Delete=<?php echo $Id; ?>"><span class="">Löschen</span> </a></td>
+                    <td><a href="createPost.php?id=<?php echo $Id; ?>"><span class="">Bearbeiten</span> </a></td>
+                    <td><a href="confirmPostDeletion.php?Delete=<?php echo $Id; ?>"><span class="">Löschen</span> </a></td>
                     <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>" target="_blank"> <span class="">Vorschau</span> </a></td>
                 </tr>
                 <?php } ?>

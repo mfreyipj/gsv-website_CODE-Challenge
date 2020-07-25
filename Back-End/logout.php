@@ -3,6 +3,7 @@
 <?php
 
   $_SESSION["User_Id"] = null;
+  // session_unset(); ?????
   session_destroy();
   Redirect_to("loginpage.php");
 
