@@ -86,7 +86,7 @@
 
         <!--Name der aktuellen Seite mittig in der Navbar (Tablet&Smartphone)-->
         <div class="navElement hiddenOnDesktop">
-            <h3>Kontakt</h3>
+            <h3 >Kontakt</h3>
         </div>
 
         <!--GSV Logo Rechts oben in der Navbar (Tablet & Smartphone)-->
@@ -122,7 +122,7 @@
     <div class="wrapper">
 
 
-        <div class="contactIntro">
+        <div class="contactIntro text">
             <h2>Sende uns auch Deine Ideen!</h2>
             <br>
             <p>Liebe Schülerin oder lieber Schüler, <br> gerne würden wir mehr mit dir in Kontakt treten und noch genauer auf deine Wünsche und Probleme eingehen können. <br/>

@@ -1,6 +1,7 @@
 <?php require_once('DB.php');?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
+
 <?php
   $PostId = $_GET["id"];
   if(isset($_POST["submit"])){
@@ -172,7 +173,7 @@
                 $Title = $DataRows["title"];
                 $SubTitle = $DataRows["subtitle"];
                 $Category = $DataRows["category"];
-                $Admin = $DataRows["author"];
+                $author = $DataRows["author"];
                 $Image = $DataRows["image"];
                 $Post = $DataRows["post"];
 
@@ -196,7 +197,7 @@
                     echo nl2br($Post);
                     ?>
                 </p>
-
+                <p class="author"><span>geschrieben von: <?php echo $author; ?></span></p>
 
 
              <br>
@@ -228,9 +229,8 @@
 
            <section class="comment">
              <br>
-             <p><?php echo $CommentName;?></p>
-             <p><?php echo $CommentDate;?></p>
-             <p class=""><?php echo nl2br($Comment);}?></p>
+             <p class="commentHeading"><?php echo $CommentName." - ".$CommentDate;?></p>
+             <p class="commentText"><?php echo nl2br($Comment);}?></p>
 
            </section>
 
@@ -242,39 +242,40 @@
         <div class="sideContentWrapper">
 
 
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h2 class="panel-title">Letzte Berichte</h2>
-            </div>
-            <br>
-            <div class="panel-body">
-              <?php
-                $Query = "SELECT * FROM admin_panel ORDER BY id DESC LIMIT 5";
-                $Execute = mysqli_query($Connection, $Query);
-                while($DataRows = mysqli_fetch_array($Execute)){
-                  $Id = $DataRows["id"];
-                  $Title = $DataRows["title"];
-                  $DateTime = $DataRows["datetime"];
-                  $Image = $DataRows["image"];
-                  if(strlen($DateTime)>12){
-                    $DateTime = substr($DateTime, 0, 12);
-                  }
-              ?>
-              <div class="">
+          <div class="panel-heading">
+            <h2 class="panel-title">Letzte Berichte</h2>
+          </div>
+          <br>
+          <div class="panel-body">
+            <?php
+              $Query = "SELECT * FROM admin_panel ORDER BY id DESC LIMIT 4";
+              $Execute = mysqli_query($Connection, $Query);
+              while($DataRows = mysqli_fetch_array($Execute)){
+                $Id = $DataRows["id"];
+                $Title = $DataRows["title"];
+                $DateTime = $DataRows["datetime"];
+                $Image = $DataRows["image"];
+
+            ?>
+            <a href="FullPost.php?id=<?php echo $Id; ?>">
+              <div class="link-container">
 
                 <img class="imageSideNav" src="../Back-End/Upload/<?php echo $Image; ?>" alt="">
 
 
-                <span><a href="FullPost.php?id=<?php echo $Id; ?>"><p><?php echo htmlentities($Title); ?></p></a> <?php echo htmlentities($DateTime); ?></span>
+                <span "titleSideNav"><h3><?php echo htmlentities($Title); ?></h3><br><p> <?php echo htmlentities($DateTime); ?></p></span>
+
+
               </div>
+            </a>
 
 
-            <?php } ?>
-            </div>
-            <div class="panel-footer">
-
-            </div>
+          <?php } ?>
           </div>
+          <div class="panel-footer">
+
+          </div>
+
 
         </div><!-- SideContentWrapper Ende -->
       </div><!-- SideContent Ende -->

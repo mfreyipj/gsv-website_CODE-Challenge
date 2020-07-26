@@ -123,9 +123,10 @@
 
 
 
-      <h2>Unser Newsletter!</h2>
+      <span class="text"><h2>Unser Newsletter!</h2>
       <br class="hiddenOnDesktop">
       <p>Du möchtest mehr über die GSV und unsere Arbeit erfahren? Dann abonniere hier unseren Newsletter und erhalte regelmäßig Informationen zu unserer neuesten Beschlüssen, Projekten und vielem mehr!</p>
+      </span>
       <form action="../Back-End/mailscripts/subcriptionConfirmation.php" class="e-mail-form" method="post">
         <div class="email-box">
           <i class="fas fa-envelope"></i>

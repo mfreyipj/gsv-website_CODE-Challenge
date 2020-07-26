@@ -194,22 +194,33 @@
 
                   <?php echo $PostToBeUpdated ?>
                 </textarea>
-                <label for="categoryselect"><span class="FieldInfo hiddenOnDesktop">Category: </span></label>
-                <select class="form-control hiddenOnDesktop" id="categoryselect" name="Category">
-                  <?php
-                    $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
-                    $Execute = mysqli_query($Connection, $ViewQuery);
 
-                    while($DataRows = mysqli_fetch_array($Execute)){
-                      $Category = $DataRows["name"];
-                   ?>
-                   <option <?php if($Category == $CategoryToBeUpdated){ echo "selected";} ?>><?php echo $Category; ;?></option>
-                 <?php } ?>
-               </select>
                <div class="author-container">
                  <label for="inputAuthor">geschrieben von</label>
                  <input type="text" id="inputAuthor" name="author" value="<?php echo $AuthorToBeUpdated ?>" placeholder="Author"><br>
                </div>
+
+               <br>
+               <br>
+               <hr>
+               <br>
+               <br>
+               <label for="categoryselect"><span class="FieldInfo ">Kategorie: </span></label>
+               <select class="form-control" id="categoryselect" name="Category">
+                 <?php
+                   $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
+                   $Execute = mysqli_query($Connection, $ViewQuery);
+
+                   while($DataRows = mysqli_fetch_array($Execute)){
+                     $Category = $DataRows["name"];
+                  ?>
+                  <option <?php if($Category == $CategoryToBeUpdated){ echo "selected";} ?>><?php echo $Category; ;?></option>
+                <?php } ?>
+              </select><br>
+              <label for="spotlightCheck" >Spotlight-Artikel? </label>
+              <input id="spotlightCheck" type="checkbox" name="spotlight" checked><br>
+
+               <textarea id="tinyPostDescription" name="postDescription" rows="8" cols="80" placeholder="Post-Teaser/Beschreibung"></textarea><br>
                <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
                 <!-- submit button -->
                 <input class="btnSubmit" type="submit" name="Submit" value="Posten">
@@ -266,6 +277,14 @@
         plugins: 'lists image imagetools',
         menubar: 'edit view insert format',
         toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | image | removeformat',
+      });
+      tinymce.init({
+        selector: '#tinyPostDescription',
+        placeholder: 'Post-Teaser/Beschreibung...',
+        content_css: '/website-repo/Back-End/css/createNewPostD.css',
+        plugins: 'lists image imagetools',
+        menubar: 'edit view insert format',
+        toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | removeformat',
       });
     </script>
 

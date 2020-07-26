@@ -1,6 +1,7 @@
 <?php  require_once('DB.php');?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
+<?php require_once('../Back-End/html2text/html2text.php'); ?>
 <?php
 
   //Search View Query
@@ -22,14 +23,7 @@
       $ShowPostFrom = 0;
     }
     //LIMIT (number of rows to be skipped), (maximum number of rows that shall be returned)
-    $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC LIMIT $ShowPostFrom, 4";
-  }
-  // Category Filter
-  elseif (isset($_GET["category"])) {
-    $Page = 1;
-
-    $Category = $_GET["category"];
-    $ViewQuery = "SELECT * FROM admin_panel WHERE category = '$Category' ORDER BY id DESC";
+    $ViewQuery = "SELECT * FROM admin_panel WHERE hidden = 0 ORDER BY id DESC LIMIT $ShowPostFrom, 4";
   }
   else{
     //Default View Query
@@ -38,11 +32,11 @@
     if($ShowPostFrom < 0){
       $ShowPostFrom = 0;
     }
-    $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC LIMIT $ShowPostFrom,4";
+    $ViewQuery = "SELECT * FROM admin_panel WHERE hidden = 0 ORDER BY id DESC LIMIT $ShowPostFrom,4";
   }
 
 
-  $SlideQuery = "SELECT * FROM admin_panel WHERE important = 'True' ORDER BY id DESC LIMIT 4";
+  $SlideQuery = "SELECT * FROM admin_panel WHERE important = 'True' AND hidden = 0 ORDER BY id DESC LIMIT 4";
   $ExecuteSlide = mysqli_query($Connection, $SlideQuery);
   ?>
 <!--Definierung des Dokuments als HTML 5-->
@@ -226,7 +220,6 @@
                $Category = $DataRows["category"];
                $author = $DataRows["author"];
                $Image = $DataRows["image"];
-               $Post = $DataRows["post"];
                $PostDescription = $DataRows["postDescription"];
                ?>
 
@@ -240,7 +233,7 @@
               <div class="postTeaser">
                 <p><?php
 
-                   echo htmlentities($PostDescription);
+                   echo $PostDescription;
 
 
                  ?></p>

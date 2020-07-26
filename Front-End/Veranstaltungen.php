@@ -7,7 +7,7 @@
   //Search View Query
   if(isset($_GET["Search"])){
     $Search = $_GET["Search"];
-    $ViewQuery = "SELECT * FROM admin_panel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR author LIKE '%$Search%' OR post LIKE '%$Search%'";
+    $ViewQuery = "SELECT * FROM admin_panel WHERE (datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR author LIKE '%$Search%' OR post LIKE '%$Search%') AND hidden = 0";
   }
   elseif (isset($_GET["Page"])) {
     // Query for Pagination
@@ -16,8 +16,9 @@
     if($ShowPostFrom < 0){
       $ShowPostFrom = 0;
     }
-    $ViewQueryOld = "SELECT * FROM admin_panel WHERE vergangen ='True' ORDER BY id DESC LIMIT $ShowPostFrom,4";
-    $ViewQueryNew = "SELECT * FROM admin_panel WHERE vergangen ='False' ORDER BY id DESC LIMIT $ShowPostFrom,4";
+
+    $ViewQueryOld = "SELECT * FROM admin_panel WHERE category ='Veranstaltungsbericht' AND hidden = 0 ORDER BY id DESC LIMIT $ShowPostFrom,4";
+    $ViewQueryNew = "SELECT * FROM admin_panel WHERE category ='Ankündigung' AND hidden = 0 ORDER BY id DESC LIMIT $ShowPostFrom,4";
   }
   // // Category Filter
   // elseif (isset($_GET["category"])) {
@@ -33,14 +34,10 @@
     if($ShowPostFrom < 0){
       $ShowPostFrom = 0;
     }
-    $ViewQueryOld = "SELECT * FROM admin_panel WHERE vergangen ='True' ORDER BY id DESC LIMIT $ShowPostFrom,4";
-    $ViewQueryNew = "SELECT * FROM admin_panel WHERE vergangen ='False' ORDER BY id DESC LIMIT $ShowPostFrom,4";
+    $ViewQueryOld = "SELECT * FROM admin_panel WHERE category ='Veranstaltungsbericht' AND hidden = 0 ORDER BY id DESC LIMIT $ShowPostFrom,4";
+    $ViewQueryNew = "SELECT * FROM admin_panel WHERE category ='Ankündigung' AND hidden = 0 ORDER BY id DESC LIMIT $ShowPostFrom,4";
   }
-
-
-  $SlideQuery = "SELECT * FROM admin_panel WHERE important = 'True' ORDER BY id DESC LIMIT 4";
-  $ExecuteSlide = mysqli_query($Connection, $SlideQuery);
-  ?>
+?>
 
 
 <!--Definierung des Dokuments als HTML 5-->
@@ -186,8 +183,8 @@
     <!--linke Seitennavigation (Tablet und Desktop)-->
      <div class="sidenav hiddenMobile <?php if(isset($_GET['Search'])){echo ' hiddenOnDesktop';} else{echo '';} ?>" id="desktopside" >
         <ul class= "hiddenMobile">
-            <li><a href="#" onclick="showcontent('new'); return false;"><span>Zukünftiges</span> <i class="far fa-hand-point-right sidenavIcon"></i> </a></li>
-            <li><a href="#" onclick="showcontent('old'); return false;" ><span>Berichte</span> <i class="far fa-hand-point-left sidenavIcon"></i> </a></li>
+            <li><a href="Veranstaltungen.php?vergangen=false"><span>Zukünftiges</span> <i class="far fa-hand-point-right sidenavIcon"></i> </a></li>
+            <li><a href="Veranstaltungen.php?vergangen=true"><span>Berichte</span> <i class="far fa-hand-point-left sidenavIcon"></i> </a></li>
             <li><a href="calendar.php" ><span>Kalender</span> <i class="fas fa-calendar-alt sidenavIcon"></i></a></li>
         </ul>
 
@@ -199,22 +196,6 @@
 
 
     <div class="wrapper">
-
-      <!-- <form action="newsletter.php" class="e-mail-form" method="post">
-        <div class="email-box">
-          <i class="fas fa-envelope"></i>
-          <input type="text" id="e-mail" class="e-mail-form input" name="suche" value="" placeholder="Suche...">
-
-          <input type="submit" class="e-mail-form submit hiddenOnMobile" name="SearchButton" value="Go">
-
-        </div>
-        <br class="hiddenOnDesktop">
-        <input type="submit" class="e-mail-form submit hiddenOnDesktop" name="SearchButton" value="Go">
-      </form> -->
-
-
-
-
         <!--Container mit den beiden Buttons zur Auswahl ob man Vergangenes oder Kommendes sehen möchte-->
         <div class="Auswahlcontainer hiddenOnDesktop" id="auswahlmobile" >
             <button onclick="showcontent('oldMobile')" type="button" class="categorychooser">Vergangene Veranstaltungen</button>
@@ -234,7 +215,12 @@
               if($_GET["Search"]){
                 $Execute = mysqli_query($Connection, $ViewQuery);
                 echo "Posts die \"".$_GET['Search']."\" enthalten";
-              }else{
+              }
+              elseif($_GET["vergangen"] == "false"){
+                echo "Kommende Veranstaltungen";
+                $Execute = mysqli_query($Connection, $ViewQueryNew);
+              }
+              else{
                 echo "Vergangene Veranstaltungen";
                 $Execute = mysqli_query($Connection, $ViewQueryOld);}?>
             </h2>
@@ -248,14 +234,7 @@
             <br/>
 
             <?php
-            if($_GET["Search"]){
-              $Execute = mysqli_query($Connection, $ViewQuery);
-            }
-            else{
-              $Execute = mysqli_query($Connection, $ViewQueryOld);
-            }
-
-             while($DataRows = mysqli_fetch_array($Execute)){
+            while($DataRows = mysqli_fetch_array($Execute)){
               $Id = $DataRows["id"];
               $DateTime = $DataRows["datetime"];
               $Title = $DataRows["title"];
@@ -274,18 +253,18 @@
 
                     <!--Bild als Link-->
                     <div>
-                      <a href="FullPost.php?id=<?php echo $Id; ?>"><img src="../Back-End/Upload/<?php echo $Image; ?>" class="picturereport"></a>
+                      <a href="FullPost.php?id=<?php echo $Id; ?>"><img src="../Back-End/Upload/<?php echo $Image; ?>" class="picturereport">
                       <span>
                         <h3><?php echo htmlentities($Title); ?></h3>
                         <br>
                         <br>
                         <p><?php echo $author." | ".htmlentities($DateTime); ?></p>
                       </span>
-
+                      </a>
                     </div>
 
                     <!--Reportbeschreibung-->
-                    <span class="reportdescription"><p ><br/> <?php echo htmlentities($PostDescription); ?></p>
+                    <span class="reportdescription"><p ><br/> <?php echo $PostDescription; ?></p>
 
                     <!--Weiterlesen Link-->
                     <p><a href="FullPost.php?id=<?php echo $Id; ?>" class="readmore">&#10132; Bericht lesen</a></p>
@@ -315,7 +294,7 @@
                     echo 'disabled';
                   }
                   ?>">
-                    <a href="Start.php?Page=<?php echo $Page-1; ?>">&laquo;</a>
+                    <a href="Veranstaltungen.php?Page=<?php echo $Page-1; ?>">&laquo;</a>
                   </li>
                  <?php
                    for($i=1; $i<=$numberOfLinks; $i++){
@@ -327,7 +306,7 @@
                      //if the pagination count equals the page number mark it active
                     if($i == $Page){
                   ?>
-                  <li><a class="active"href="Start.php?Page=<?php echo $i; //echo the page number into the href ?>">
+                  <li><a class="active"href="Veranstaltungen.php?Page=<?php echo $i; //echo the page number into the href ?>">
                     <?php echo $i; //echo the page number into the anchor as well  ?>
                   </a></li>
                   <?php
@@ -335,7 +314,7 @@
                         //if the pagination count does not equal the page number return a normal anchor
                         else{
                   ?>
-                  <li ><a class=""href="Start.php?Page=<?php echo $i; //echo the page number into the href ?>">
+                  <li ><a class=""href="Veranstaltungen.php?Page=<?php echo $i; //echo the page number into the href ?>">
                     <?php echo $i; //echo the page number into the anchor as well ?>
                   </a></li>
                 <?php } } ?>
@@ -344,7 +323,7 @@
                   // if the pagenumber is equal to the number of links, disable the forward li
                   if($Page==$numberOfLinks){ echo 'disabled';
                   }
-                  ?>"><a href="Start.php?Page=<?php echo $Page+1; ?>">&raquo;</a>
+                  ?>"><a href="Start.php?Veranstaltungen=<?php echo $Page+1; ?>">&raquo;</a>
                 </li>
               </ul>
           </div>

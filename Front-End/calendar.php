@@ -110,6 +110,14 @@
             </div>
         </nav>
 
+    <div class="pageInfo">
+      <h2>Unser Kalender!</h2>
+      <p>Auf dieser Seite könnt ihr alle Termine der GSV und (wenn wir es schaffen) auch <br>alle anderen möglichen Termine für Schülervertreter nachschlagen. <br><br>
+        Wenn ihr einen Termin findet, den wir hier noch nicht eingetragen haben, <br> gebt ihn uns doch bitte einfach über die Kontakt-Seite durch. <br>
+        Vielen Dank!
+      </p>
+    </div>
+
     <div class="fullcalendar">
       <div id='loading'>loading...</div>
 

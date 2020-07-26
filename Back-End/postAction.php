@@ -26,6 +26,14 @@
   $Title = mysqli_real_escape_string($Connection,$_POST["Title"]);
   $Category = mysqli_real_escape_string($Connection,$_POST["Category"]);
   $Post = mysqli_real_escape_string($Connection,$_POST["Post"]);
+  if(isset($_POST["spotlight"])){
+    
+    $important = "True";
+  }
+  else{
+    $important = "False";
+  }
+  $postDescription = mysqli_real_escape_string($Connection,$_POST["postDescription"]);
   $Author = mysqli_real_escape_string($Connection,$_POST["author"]);
   // get post-time
   date_default_timezone_set("Europe/Berlin");
@@ -49,10 +57,10 @@
 
       // Update query
       // Note: image does not need to be updated since no new image was uploaded
-      $Query="UPDATE admin_panel SET datetime = '$DateTime',title = '$Title',category = '$Category',author = '$Author',post = '$Post' WHERE id = '$givenid'";
+      $Query="UPDATE admin_panel SET datetime = '$DateTime',title = '$Title',category = '$Category',author = '$Author',post = '$Post', postDescription = '$postDescription', important='$important' WHERE id = '$givenid'";
     }
     else{
-      $Query="INSERT INTO admin_panel(datetime,title,category,author,image,post) VALUES('$DateTime','$Title','$Category','$Author','gsvGemontLogo.jpg','$Post')";
+      $Query="INSERT INTO admin_panel(datetime,title,category,author,image,post, postDescription, important) VALUES('$DateTime','$Title','$Category','$Author','gsvGemontLogo.jpg','$Post','$postDescription', '$important')";
     }
     $Execute=mysqli_query($Connection,$Query);
 
@@ -78,10 +86,10 @@
         // if the filesize is smalller than 500kb
           if($imageSize < 500000){
             if($givenid){
-              $Query="UPDATE admin_panel SET datetime = '$DateTime',title = '$Title',category = '$Category',author = '$Author',image = '$imageName',post = '$Post' WHERE id = '$givenid'";
+              $Query="UPDATE admin_panel SET datetime = '$DateTime',title = '$Title',category = '$Category',author = '$Author',image = '$imageName',post = '$Post', postDescription = '$postDescription', important='$important' WHERE id = '$givenid'";
             }
             else{
-              $Query="INSERT INTO admin_panel(datetime,title,category,author,image,post) VALUES('$DateTime','$Title','$Category','$Author','$imageName','$Post')";
+              $Query="INSERT INTO admin_panel(datetime,title,category,author,image,post, postDescription, important) VALUES('$DateTime','$Title','$Category','$Author','$imageName','$Post', '$postDescription', '$important')";
             }
             $Execute=mysqli_query($Connection,$Query);
             // $imageNameNew = uniqid('', true).".".$imageActualExt;

@@ -63,11 +63,23 @@
   font-size: 17px;
 }
 
+.author{
+  display:block;
+  width: 100%;
+  text-align: right;
+  margin-top: 5vh;
+}
+
+.author span{
+  margin-right: 3vw;
+}
+
 .contact-form{
-  margin-top: 15vh;
+  margin-top: 5vh;
   border-top: 1px solid #999;
   padding-top: 3vh;
 }
+
 form{
     transition: all 4s ease-in-out;
 }
@@ -95,6 +107,7 @@ form .submit{
     height: 40px;
     width: 200px;
     margin-top: 20px;
+    margin-bottom: 3vh;
 }
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-family: "Open Sans", sans-serif;
@@ -115,17 +128,61 @@ form .submit:hover{
 
 }
 
-.commentPortrait{
-  width: 10% !important;
-  height: 10% !important;
+.commentHeading{
+  font-size: 1.2vh;
 }
+
+.commentText{
+  margin: 1vh 0;
+
+}
+
 
 .sideContentWrapper{
   width: 80%;
-  margin: 6% auto;
+  margin: 6vh auto;
+  margin-right: 4.5vw;
 }
 
+.link-container{
+  margin: 2vh 0;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.link-container:hover{
+  transform: scale(1.05);
+  transition: all 0.5s;
+}
+
+
 .imageSideNav{
-  width: 80% !important;
-  height : 10vh !important;
+  width: 19.9vw !important;
+  height : 11.8vw !important;
+}
+
+.link-container span{
+  position: absolute;
+  z-index: 3;
+  display: block;
+  color: #fff;
+  top: 45%;
+  transform: translateY(45%);
+  right: 10%;
+  height: 20%;
+  text-align: right;
+}
+
+.link-container span p{
+  display: inline-block;
+  background-color: rgba(123, 123, 123, 0.6);
+  padding: 0.5vh 1vw;
+  font-size: 1.2vh;
+  margin-top: 0.3vh;
+}
+.link-container span h3{
+  display: inline-block;
+  background-color: rgba(123, 123, 123, 0.6);
+  padding: 0.5vh 1vw;
+
 }
