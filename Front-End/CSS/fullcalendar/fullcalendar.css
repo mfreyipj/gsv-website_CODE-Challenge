@@ -9,7 +9,7 @@
 
 
 .fullcalendar{
-  margin: 100px auto;
+  margin: 15vh auto;
 }
 
 
@@ -24,4 +24,15 @@
 
   width: 66%;
   margin: auto;
+}
+.fc-button-primary{
+  color: #444;
+}
+
+.fc-button-primary:disabled{
+  color: #444;
+}
+
+.fc-button-primary:hover{
+  color: tomato;
 }

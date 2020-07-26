@@ -13,8 +13,8 @@
 }
 
 .hiddenOnDesktop{
-  display:none;
-  position: absolute;
+  display:none !important;
+  position: absolute !important;
 }
 
 
@@ -23,8 +23,8 @@
 display: none;
 }
 
-/***Bookmark Seitenanfang***/
-#sanfang {
+/***Bookmarks***/
+#sanfang, #newsFeed {
     visibility: hidden;
     position: absolute;
 }
@@ -127,9 +127,59 @@ nav div h5{
     z-index: 0;
 }
 
+/*************** hoverable searchbar top right *************/
 
 
-/***Footer***/
+/* div - container of the hoverable searchbar in the top right corner */
+.searchbar-container{
+  position: fixed;
+  top: 2.2vh;
+  right: 2vw;
+  min-width: 15vw;
+  min-height: 5vh;
+  text-align: right;
+}
+/* input - input for the search phrase that is only shown when the Container
+is hovered */
+.searchInput{
+  border: none;
+  border-bottom: 1px solid #ddd;
+  display:none;
+}
+/* button - submit button for the search form that contains an icon */
+.searchbarSubmit{
+  border: none;
+  color: #444;
+  background-color: #fff;
+  padding: 0.5vh;
+
+}
+.searchbarSubmit:hover{
+  cursor: pointer;
+  color: tomato;
+}
+.searchInput:focus, .searchbarSubmit:focus{
+  outline: none;
+}
+
+/* display input only on hover of the container */
+.searchbar-container:hover .searchInput{
+  display: inline;
+}
+
+
+/* li - is toggled to the back or forward links of the pagination if the outer pages are reached */
+.disabled{
+
+  pointer-events: none;
+}
+
+.disabled:hover{
+  cursor: pointer;
+}
+
+
+/************* Footer ******************/
 footer {
     position: relative;
     bottom: 0;

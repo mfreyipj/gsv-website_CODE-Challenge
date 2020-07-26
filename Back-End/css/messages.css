@@ -6,8 +6,8 @@ messages will be displayed at fitting occasions*/
   border-radius: 40px;
   color: #444;
   margin: 2vh 0 4vh 2vw;
-}
 
+}
 /* possible background colors of the message div or the comment counters*/
 .success{
   background-color: rgba(61, 184, 67, 0.2);

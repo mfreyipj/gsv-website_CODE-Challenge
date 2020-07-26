@@ -1,3 +1,7 @@
+<?php require_once('../Back-End/include/DB.php'); ?>
+<?php require_once('../Back-End/include/Sessions.php'); ?>
+<?php require_once('../Back-End/include/Functions.php'); ?>
+
 <!--Definierung des Dokuments als HTML 5-->
 <!DOCTYPE html>
 <html lang="de">
@@ -23,6 +27,8 @@
     <!--Stylesheet für Desktops (10-2018)-->
     <link rel="stylesheet" href="CSS/5-Newsletter/newsletter.css" media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel=stylesheet href="CSS/CSSforAll/cssForAll.css" media="screen and (min-width: 1000px) and (max-width: 5000px)" >
+    <link rel="stylesheet" href="../Back-End/css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+    <link rel=stylesheet href="CSS/messagesUserEnd.css" media="screen and (min-width: 1000px) and (max-width: 5000px)" >
     <!--Icon Einbindung-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
@@ -95,25 +101,41 @@
             <!--Timer im Timerbanner-->
             <div id="timerdesktop"></div>
         </div>
+        <div class="searchbar-container">
+          <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
+
+            <input class="searchInput" type="text" name="Search" value="" placeholder="Suche nach Posts" autocomplete="off">
+            <button form="searchform"type="submit" name="submitSearch" class="searchbarSubmit"><i class= ' fas fa-search '></i> </button>
+
+          </form>
+
+        </div>
     </nav>
 
 
-
+    <!-- below the top navigation bar, possible success or error
+    messages will pop up -->
+    <?php
+    echo Message();
+    echo SuccessMessage();?>
 
     <div class="wrapper">
+
+
+
       <h2>Unser Newsletter!</h2>
       <br class="hiddenOnDesktop">
       <p>Du möchtest mehr über die GSV und unsere Arbeit erfahren? Dann abonniere hier unseren Newsletter und erhalte regelmäßig Informationen zu unserer neuesten Beschlüssen, Projekten und vielem mehr!</p>
-      <form action="newsletter.php" class="e-mail-form" method="post">
+      <form action="../Back-End/mailscripts/subcriptionConfirmation.php" class="e-mail-form" method="post">
         <div class="email-box">
           <i class="fas fa-envelope"></i>
           <input type="email" id="e-mail" class="e-mail-form input" name="eMail" value="" placeholder="Deine Email...">
 
-          <input type="submit" class="e-mail-form submit hiddenOnMobile" name="submitBtn" value="Abonnieren">
+          <input type="submit" class="e-mail-form submit hiddenOnMobile" name="subscribe" value="Abonnieren">
 
         </div>
         <br class="hiddenOnDesktop">
-        <input type="submit" class="e-mail-form submit hiddenOnDesktop" name="submitBtn" value="Abonnieren">
+        <input type="submit" class="e-mail-form submit hiddenOnDesktop" name="subscribe" value="Abonnieren">
       </form>
     </div>
 

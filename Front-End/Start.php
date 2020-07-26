@@ -21,6 +21,7 @@
     if($ShowPostFrom < 0){
       $ShowPostFrom = 0;
     }
+    //LIMIT (number of rows to be skipped), (maximum number of rows that shall be returned)
     $ViewQuery = "SELECT * FROM admin_panel ORDER BY id DESC LIMIT $ShowPostFrom, 4";
   }
   // Category Filter
@@ -78,6 +79,8 @@
 
     <link rel="stylesheet" href="CSS/CSSforAll/cssForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="CSS\1-Start\start.css" media="screen and (min-width: 1000px) and (max-width: 5000px)" >
+
+
 </head>
 
 
@@ -141,6 +144,15 @@
             <!--Timer im Timerbanner-->
             <div id="timerdesktop"></div>
         </div>
+        <div class="searchbar-container">
+          <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
+
+            <input class="searchInput" type="text" name="Search" value="" placeholder="Suche nach Posts" autocomplete="off">
+            <button form="searchform"type="submit" name="submitSearch" class="searchbarSubmit"><i class= ' fas fa-search '></i> </button>
+
+          </form>
+
+        </div>
     </nav>
 
 
@@ -202,7 +214,8 @@
       <br>
 
       <section class="newsContainer">
-
+        <!--Bookmark zum Seitenanfang-->
+        <div id="newsFeed">Copyright &copy; Innovative Programming JTown </div>
            <ul class="newsList" >
              <?php
              $Execute = mysqli_query($Connection, $ViewQuery);
@@ -211,19 +224,20 @@
                $DateTime = $DataRows["datetime"];
                $Title = $DataRows["title"];
                $Category = $DataRows["category"];
-               $Admin = $DataRows["author"];
+               $author = $DataRows["author"];
                $Image = $DataRows["image"];
                $Post = $DataRows["post"];
                $PostDescription = $DataRows["postDescription"];
                ?>
 
             <li>
+              <a class="feedLinks" href="FullPost.php?id=<?php echo $Id; ?>">
               <img src="../Back-End/Upload/<?php echo $Image ?>" alt="">
               <br>
               <br>
-              <h4><a href="FullPost.php?id=<?php echo $Id; ?>"><?php echo htmlentities($Title); ?></a> </h4>
+              <h4><?php echo htmlentities($Title); ?> </h4>
               <br>
-              <div class="post">
+              <div class="postTeaser">
                 <p><?php
 
                    echo htmlentities($PostDescription);
@@ -233,9 +247,10 @@
               </div>
 
               <span> <?php
-               echo htmlentities($DateTime); ?></span>
+               echo $author." | ".$DateTime; ?></span>
+               </a>
+             </li>
 
-            </li>
             <?php } ?>
 
           </ul>
@@ -247,30 +262,63 @@
       <div class="pagination">
           <ul>
             <?php
+            // query that counts the number of existings posts
              $QueryPagination = "SELECT COUNT(*) FROM admin_panel";
              $ExecutePagination = mysqli_query($Connection, $QueryPagination);
              $RowPagination = mysqli_fetch_array($ExecutePagination);
+             // save the first element of the result array in $TotalPosts
              $TotalPosts = array_shift($RowPagination);
-             $PostPerPage = ($TotalPosts/4);
-             $PostPerPage = ceil($PostPerPage);
+
+             $numberOfLinks = ($TotalPosts/4);
+             // rundet die berechnete Zahl auf
+             $numberOfLinks = ceil($numberOfLinks);
+             // example : 10 existing posts/4=2.5 -> $numberOfLinks = 3
+             if ($numberOfLinks > 4){
+               $numberOfLinks = 4;
+             }
              if($Page <= 0){
                $i =1;
              }
              ?>
-             <li><a href="Start.php?Page=<?php echo $Page-1; ?>">&laquo;</a></li>
+             <li class="
              <?php
-               for($i=1; $i<=$PostPerPage; $i++){
+              if($Page<=1){
+                // if the page count is set lower than or equal to 1 disable the backward li
+                echo 'disabled';
+              }
+              ?>">
+                <a href="Start.php?Page=<?php echo $Page-1; ?>">&laquo;</a>
+              </li>
+             <?php
+              //
+               for($i=1; $i<=$numberOfLinks; $i++){
 
                  if($Page <= 0){
                    $Page = 1;
                  }
+
+                 //if the pagination count equals the page number mark it active
                 if($i == $Page){
               ?>
-              <li><a class="active"href="Start.php?Page=<?php echo $i; ?>"><?php echo $i;  ?></a></li>
-          <?php }else{ ?>
-            <li ><a class=""href="Start.php?Page=<?php echo $i; ?>"><?php echo $i;  ?></a></li>
+              <li><a class="active"href="Start.php?Page=<?php echo $i; //echo the page number into the href ?>">
+                <?php echo $i; //echo the page number into the anchor as well  ?>
+              </a></li>
+              <?php
+                    }
+                    //if the pagination count does not equal the page number return a normal anchor
+                    else{
+              ?>
+            <li ><a class=""href="Start.php?Page=<?php echo $i; //echo the page number into the href ?>">
+              <?php echo $i; //echo the page number into the anchor as well ?>
+            </a></li>
           <?php } } ?>
-              <li><a href="Start.php?Page=<?php echo $Page+1; ?>">&raquo;</a></li>
+              <li class="
+              <?php
+                // if the pagenumber is equal to the number of links, disable the forward li
+                if($Page==$numberOfLinks){ echo 'disabled';
+                }
+                ?>"><a href="Start.php?Page=<?php echo $Page+1; ?>">&raquo;</a>
+              </li>
           </ul>
       </div>
 
@@ -298,6 +346,6 @@
 
     <!---Javascript-Skripte-->
     <script src="JS/script.js"></script>
-
+    <?php if(isset($_GET["Page"])){ echo "<script type=\"text/javascript\">window.onload = function(){document.getElementById(\"newsFeed\").scrollIntoView();}</script>";} ?>
 </body>
 </html>

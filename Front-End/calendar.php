@@ -69,15 +69,15 @@
                     <!--Linkliste-->
                     <ul>
 
-                        <li><span><a href="Start.html">Startseite</a></span></li>
-                        <li><span><a href="ueberuns.html">Über Uns</a></span></li>
+                        <li><span><a href="Start.php">Startseite</a></span></li>
+                        <li><span><a href="ueberuns.php">Über Uns</a></span></li>
                         <!-- <li><span><a href="#">Projekte und Inhalte</a></span>
                         </li> -->
                         <li><!--GSV Logo (nur für den Desktop relevant)-->
                     <img src="IMG/gsvGemontLogo.jpg" alt="gemontlogo" class="logonav" id="logodesktop" ></li>
-                        <li><span><a href="Veranstaltungen.html" >Veranstaltungen</a></span></li>
-                        <li><span><a href="newsletter.html" >Newsletter</a></span></li>
-                        <li><span><a href="Kontakt.html">Kontakt</a></span></li>
+                        <li><span><a href="Veranstaltungen.php" >Veranstaltungen</a></span></li>
+                        <li><span><a href="newsletter.php" >Newsletter</a></span></li>
+                        <li><span><a href="Kontakt.php">Kontakt</a></span></li>
                     </ul>
                 </div>
             </div>
@@ -97,6 +97,16 @@
             <div class="timerbanner">
                 <!--Timer im Timerbanner-->
                 <div id="timerdesktop"></div>
+            </div>
+
+            <div class="searchbar-container">
+              <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
+
+                <input class="searchInput" type="text" name="Search" value="" placeholder="Suche nach Posts" autocomplete="off">
+                <button form="searchform"type="submit" name="submitSearch" class="searchbarSubmit"><i class= ' fas fa-search '></i> </button>
+
+              </form>
+
             </div>
         </nav>
 

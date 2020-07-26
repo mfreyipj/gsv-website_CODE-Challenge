@@ -96,6 +96,15 @@
             <!--Timer im Timerbanner-->
             <div id="timerdesktop"></div>
         </div>
+        <div class="searchbar-container">
+          <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
+
+            <input class="searchInput" type="text" name="Search" value="" placeholder="Suche nach Posts" autocomplete="off">
+            <button form="searchform"type="submit" name="submitSearch" class="searchbarSubmit"><i class= ' fas fa-search '></i> </button>
+
+          </form>
+
+        </div>
     </nav>
 
 

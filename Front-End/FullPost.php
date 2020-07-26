@@ -51,6 +51,9 @@
     <link rel="stylesheet" href="CSS/CSSforAll/cssForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="../Back-End/css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/weirdflex.css">
+    <!--Icon Einbindung-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
     <script src="js/bootstrap.min.js" charset="utf-8"></script>
     <script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
   </head>
@@ -125,6 +128,16 @@
           <div class="timerbanner">
               <!--Timer im Timerbanner-->
               <div id="timerdesktop"></div>
+          </div>
+
+          <div class="searchbar-container">
+            <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
+
+              <input class="searchInput" type="text" name="Search" value="" placeholder="Suche nach Posts" autocomplete="off">
+              <button form="searchform"type="submit" name="submitSearch" class="searchbarSubmit"><i class= ' fas fa-search '></i> </button>
+
+            </form>
+
           </div>
       </nav>
       <div class="wrapper">

@@ -13,7 +13,7 @@
    indicator.addEventListener('click', () => {
      document.querySelector('.control .selected').classList.remove('selected');
      indicator.classList.add('selected');
-     slider.style.transform = 'translateX(' + (i) * -25 + '%)';
+     slider.style.transform = 'translateX(' + (i) * -100 + '%)';
      index = i;
 
    })

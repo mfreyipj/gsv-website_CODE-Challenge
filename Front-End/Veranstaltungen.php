@@ -1,20 +1,15 @@
 <?php  require_once('DB.php');?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
+<?php require_once('timerscript.php'); ?>
 <?php
 
-  // //Search View Query
-  // if(isset($_GET["SearchButton"])){
-  //   $Search = $_GET["Search"];
-  //   $ViewQuery = "SELECT * FROM admin_panel WHERE
-  //   datetime LIKE '%$Search%'
-  //   OR title LIKE '%$Search%'
-  //   OR category LIKE '%$Search%'
-  //   OR author LIKE '%$Search%'
-  //   OR post LIKE '%$Search%'";
-  //
-  // }
-  if (isset($_GET["Page"])) {
+  //Search View Query
+  if(isset($_GET["Search"])){
+    $Search = $_GET["Search"];
+    $ViewQuery = "SELECT * FROM admin_panel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR author LIKE '%$Search%' OR post LIKE '%$Search%'";
+  }
+  elseif (isset($_GET["Page"])) {
     // Query for Pagination
     $Page = $_GET["Page"];
     $ShowPostFrom = ($Page * 4)-4;
@@ -130,7 +125,8 @@
                     </li> -->
                     <li><!--GSV Logo (nur für den Desktop relevant)-->
                 <img src="IMG/gsvGemontLogo.jpg" alt="gemontlogo" class="logonav hiddenMobile" id="logodesktop" ></li>
-                    <li><span><a href="Veranstaltungen.php" class="active">Veranstaltungen</a></span></li>
+                <!-- link to events that is marked as active only if no search was done-->
+                    <li><span><a href="Veranstaltungen.php" class="<?php if(isset($_GET['Search'])){echo '';} else{echo 'active';} ?>">Veranstaltungen</a></span></li>
                     <li><span><a href="newsletter.php" >Newsletter</a></span></li>
                     <li><span><a href='Kontakt.php'>Kontakt</a></span></li>
                 </ul>
@@ -154,17 +150,45 @@
         <!--Container des Timerbanners-->
         <div class="timerbanner">
             <!--Timer im Timerbanner-->
-            <div id="timerdesktop"></div>
+            <div id="timerdesktop"><?php
+
+            // function countdownfunction2(int $nDay, string $nMonth, int $nHour, int $nMinute, bool $gsvAppointmentSet){
+            //   if($gsvAppointmentSet){
+            //
+            //     $day = $nDay;
+            //     $month = $nMonth;
+            //     $hour = $nHour;
+            //     $minute = $nMinute;
+            //     $remaining = $date - time();
+            //     $days_remaining = floor($remaining / 86400);
+            //     $hours_remaining = floor(($remaining % 86400) / 3600);
+            //     $alarm = "Die nächste GSV findet am $day. $month um $nHour:$nMinute Uhr statt!";
+            //     return $alarm;
+            //   }
+            // }
+
+            echo countdownfunction2($Connection); ?></div>
         </div>
+        <div class="searchbar-container">
+          <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
+
+            <input class="searchInput" type="text" name="Search" value="" placeholder="Suche nach Posts" autocomplete="off">
+            <button form="searchform"type="submit" name="submitSearch" class="searchbarSubmit"><i class= ' fas fa-search '></i> </button>
+
+          </form>
+
+        </div>
+
+
     </nav>
 
 
     <!--linke Seitennavigation (Tablet und Desktop)-->
-     <div class="sidenav hiddenMobile" id="desktopside" >
+     <div class="sidenav hiddenMobile <?php if(isset($_GET['Search'])){echo ' hiddenOnDesktop';} else{echo '';} ?>" id="desktopside" >
         <ul class= "hiddenMobile">
-            <li><a href="#" onclick="showcontent('new'); return false;"><span>Zukünftiges</span> <i class="far fa-hand-point-right sidenavOption"></i> </a></li>
-            <li><a href="#" onclick="showcontent('old'); return false;" ><span>Berichte</span> <i class="far fa-hand-point-left sidenavOption"></i> </a></li>
-            <li><a href="calendar.html" ><span>Kalender</span> <i class="fas fa-calendar-alt sidenavOption"></i></a></li>
+            <li><a href="#" onclick="showcontent('new'); return false;"><span>Zukünftiges</span> <i class="far fa-hand-point-right sidenavIcon"></i> </a></li>
+            <li><a href="#" onclick="showcontent('old'); return false;" ><span>Berichte</span> <i class="far fa-hand-point-left sidenavIcon"></i> </a></li>
+            <li><a href="calendar.php" ><span>Kalender</span> <i class="fas fa-calendar-alt sidenavIcon"></i></a></li>
         </ul>
 
     </div>
@@ -176,7 +200,7 @@
 
     <div class="wrapper">
 
-      <form action="newsletter.php" class="e-mail-form" method="post">
+      <!-- <form action="newsletter.php" class="e-mail-form" method="post">
         <div class="email-box">
           <i class="fas fa-envelope"></i>
           <input type="text" id="e-mail" class="e-mail-form input" name="suche" value="" placeholder="Suche...">
@@ -186,7 +210,7 @@
         </div>
         <br class="hiddenOnDesktop">
         <input type="submit" class="e-mail-form submit hiddenOnDesktop" name="SearchButton" value="Go">
-      </form>
+      </form> -->
 
 
 
@@ -204,8 +228,19 @@
 
 
             <!--Seitenüberschrift für die ausgewählte Seite-->
-            <h2>Vergangene Veranstaltungen</h2>
 
+            <h2>
+              <?php
+              if($_GET["Search"]){
+                $Execute = mysqli_query($Connection, $ViewQuery);
+                echo "Posts die \"".$_GET['Search']."\" enthalten";
+              }else{
+                echo "Vergangene Veranstaltungen";
+                $Execute = mysqli_query($Connection, $ViewQueryOld);}?>
+            </h2>
+            <?php
+
+            ?>
             <hr class="hiddenOnDesktop"/>
 
 
@@ -213,13 +248,19 @@
             <br/>
 
             <?php
-            $Execute = mysqli_query($Connection, $ViewQueryOld);
+            if($_GET["Search"]){
+              $Execute = mysqli_query($Connection, $ViewQuery);
+            }
+            else{
+              $Execute = mysqli_query($Connection, $ViewQueryOld);
+            }
+
              while($DataRows = mysqli_fetch_array($Execute)){
               $Id = $DataRows["id"];
               $DateTime = $DataRows["datetime"];
               $Title = $DataRows["title"];
               $Category = $DataRows["category"];
-              $Admin = $DataRows["author"];
+              $author = $DataRows["author"];
               $Image = $DataRows["image"];
               $Post = $DataRows["post"];
               $PostDescription = $DataRows["postDescription"];
@@ -228,11 +269,20 @@
             <div class="report">
 
                     <!--Report-Überschrift-->
-                <span class="flexHeader">
-                    <span style="visibility: hidden">30.11.2018</span><h3><?php echo htmlentities($Title); ?></h3><span><?php echo htmlentities($DateTime); ?></span></span>
+                <!-- <span class="flexHeader">
+                    <span style="visibility: hidden">30.11.2018</span><h3><?php echo htmlentities($Title); ?></h3><span><?php echo $author." | ".htmlentities($DateTime); ?></span></span> -->
 
                     <!--Bild als Link-->
-                    <div><a href="FullPost.php?id=<?php echo $Id; ?>"><img src="../Back-End/Upload/<?php echo $Image; ?>" class="picturereport"></a></div>
+                    <div>
+                      <a href="FullPost.php?id=<?php echo $Id; ?>"><img src="../Back-End/Upload/<?php echo $Image; ?>" class="picturereport"></a>
+                      <span>
+                        <h3><?php echo htmlentities($Title); ?></h3>
+                        <br>
+                        <br>
+                        <p><?php echo $author." | ".htmlentities($DateTime); ?></p>
+                      </span>
+
+                    </div>
 
                     <!--Reportbeschreibung-->
                     <span class="reportdescription"><p ><br/> <?php echo htmlentities($PostDescription); ?></p>
@@ -252,26 +302,50 @@
                  $ExecutePagination = mysqli_query($Connection, $QueryPagination);
                  $RowPagination = mysqli_fetch_array($ExecutePagination);
                  $TotalPosts = array_shift($RowPagination);
-                 $PostPerPage = ($TotalPosts/4);
-                 $PostPerPage = ceil($PostPerPage);
+                 $numberOfLinks = ($TotalPosts/4);
+                 $numberOfLinks = ceil($numberOfLinks);
                  if($Page <= 0){
                    $i =1;
                  }
                  ?>
-                 <li><a href="Veranstaltungen.php?Page=<?php echo $Page-1; ?>">&laquo;</a></li>
+                 <li class="
                  <?php
-                   for($i=1; $i<=$PostPerPage; $i++){
+                  if($Page<=1){
+                    // if the page count is set lower than or equal to 1 disable the backward li
+                    echo 'disabled';
+                  }
+                  ?>">
+                    <a href="Start.php?Page=<?php echo $Page-1; ?>">&laquo;</a>
+                  </li>
+                 <?php
+                   for($i=1; $i<=$numberOfLinks; $i++){
 
                      if($Page <= 0){
                        $Page = 1;
                      }
+
+                     //if the pagination count equals the page number mark it active
                     if($i == $Page){
                   ?>
-                  <li><a class="active"href="Veranstaltungen.php?Page=<?php echo $i; ?>"><?php echo $i;  ?></a></li>
-              <?php }else{ ?>
-                <li ><a class=""href="Veranstaltungen.php?Page=<?php echo $i; ?>"><?php echo $i;  ?></a></li>
-              <?php } } ?>
-                  <li><a href="Veranstaltungen.php?Page=<?php echo $Page+1; ?>">&raquo;</a></li>
+                  <li><a class="active"href="Start.php?Page=<?php echo $i; //echo the page number into the href ?>">
+                    <?php echo $i; //echo the page number into the anchor as well  ?>
+                  </a></li>
+                  <?php
+                        }
+                        //if the pagination count does not equal the page number return a normal anchor
+                        else{
+                  ?>
+                  <li ><a class=""href="Start.php?Page=<?php echo $i; //echo the page number into the href ?>">
+                    <?php echo $i; //echo the page number into the anchor as well ?>
+                  </a></li>
+                <?php } } ?>
+                <li class="
+                <?php
+                  // if the pagenumber is equal to the number of links, disable the forward li
+                  if($Page==$numberOfLinks){ echo 'disabled';
+                  }
+                  ?>"><a href="Start.php?Page=<?php echo $Page+1; ?>">&raquo;</a>
+                </li>
               </ul>
           </div>
 
@@ -302,7 +376,7 @@
               $DateTime = $DataRows["datetime"];
               $Title = $DataRows["title"];
               $Category = $DataRows["category"];
-              $Admin = $DataRows["author"];
+              $author = $DataRows["author"];
               $Image = $DataRows["image"];
               $Post = $DataRows["post"];
               $PostDescription = $DataRows["postDescription"];
@@ -311,11 +385,20 @@
             <div class="report">
 
                     <!--Report-Überschrift-->
-                <span class="flexHeader">
-                    <span style="visibility: hidden">30.11.2018</span><h3><?php echo htmlentities($Title); ?></h3><span><?php echo htmlentities($DateTime); ?></span></span>
+                <!-- <span class="flexHeader">
+                    <span style="visibility: hidden">30.11.2018</span><h3><?php echo htmlentities($Title); ?></h3><span><?php echo $author." | ".htmlentities($DateTime); ?></span></span> -->
 
                     <!--Bild als Link-->
-                    <div><a href="FullPost.php?id=<?php echo $Id; ?>"><img src="../Back-End/Upload/<?php echo $Image; ?>" class="picturereport"></a></div>
+                    <div>
+                      <a href="FullPost.php?id=<?php echo $Id; ?>"><img src="../Back-End/Upload/<?php echo $Image; ?>" class="picturereport"></a>
+                      <span>
+                        <h3><?php echo htmlentities($Title); ?></h3>
+                        <br>
+                        <br>
+                        <p><?php echo $author." | ".htmlentities($DateTime); ?></p>
+                      </span>
+
+                    </div>
 
                     <!--Reportbeschreibung-->
                     <span class="reportdescription"><p ><br/> <?php echo htmlentities($PostDescription); ?></p>
