@@ -18,7 +18,7 @@ I mostly coded throughout the challenge.
 You can find all of my code in the folders "Front-End" and "Back-End" which contain the code for the user-end (Front-End) and for the admin panel/content management system (Back-End).
 
 Professional software-engineers always plan what they want to do first.
-Because I have never done this before and because you wanted me to document my progress, I decided to try this as well. So I, before I started to code, did a full inventory of how the website looked before the challenge. It helped me to get a feeling for what was in place already and helped me to write down want I wanted to achieve during the challenge. After finishing coding I did another inventory of how the website looked now.This helped to look back on what I had achieved and describes what the user can now do with the website and how it has changed in comparison to the website that existed before the challenge.
+Because I have never done this before and because you wanted me to document my progress, I decided to try this as well. So I, before I started to code, first created a rough schedule for my progress (Documentation/timetable) and did a full inventory of how the website looked before the challenge. It helped me to get a feeling for what was in place already and helped me to write down want I wanted to achieve during the challenge. After finishing coding I did another inventory of how the website looked now.This helped to look back on what I had achieved and describes what the user can now do with the website and how it has changed in comparison to the website that existed before the challenge.
 Both of the inventories are located in the folder "Documentation/inventories".
 
 If you want to check out the before and after practically yourself instead of reading the inventories, please feel free to do so.
@@ -39,8 +39,8 @@ I have used a GitKraken board however which could give you yet another good impr
 To access this GitKraken board just text me an email with the name or email-address of an account that you have there and I will add you as a user of the board as soon as possible.
 
 Since I coded so much, I did not get to comment all of my code thoroughly or correctly.
-What I have decided to do instead is to give you a short technical overview of how I build my website. You can find this under Documentation/technicalOverview.
-While there are some comments in the code as well, I would not count on them too much.
+What I have decided to do at least is to give you a short overview of what my website is build upon. You can find this under Documentation/techDoc.
+There are some comments in the code as well, but I do not claim that they are positioned or used in the right placed at all times.
 
 That was all I got! I hope that you will like it and look forward to hear from you.
 
