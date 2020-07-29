@@ -31,7 +31,7 @@
 .thumbnail{
   width: 53.5vw !important;
   height: 30.1vw !important;
-  margin-bottom: 6%;
+  margin-bottom: 6vh;
 }
 
 .timestamp{
@@ -53,7 +53,9 @@
   padding-bottom: 1vh;
 }
 
-
+.postDescription{
+  margin-bottom: 2vh;
+}
 .post{
   line-height: 1.5;
   display: block;

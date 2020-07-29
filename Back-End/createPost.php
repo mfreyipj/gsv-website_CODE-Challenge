@@ -102,13 +102,13 @@
           <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="posts.php">Alle Artikel</a></li>
-            <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
+            <li><a href="posts.php?drafts=true">Entwürfe</a></li>
             <li><a href="createPost.php" class="active">Neuer Artikel</a></li>
             <li><a href="categories.php">Post-Kategorien</a></li>
-            <li><a href="#">Kontakt-Inbox</a></li>
+            <li><a href="contactMessages.php">Kontakt-Inbox</a></li>
             <li><a href="admins.php">Admin-Verwaltung</a></li>
-            <li><a href="#">Über Uns</a></li>
-            <li><a href="comments.php">Comments
+            <li><a href="newGSV.php">GSV ankündigen</a></li>
+            <li><a href="comments.php">Kommentare
               <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
               <?php
                 $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
@@ -120,7 +120,7 @@
             <span class="count warning"><?php echo $Total;?></span>
           <?php } ?></a>
             </li>
-            <li><a href="../Front-End/calendar.html">Kalender</a></li>
+            <li><a href="../Front-End/calendar.php">Kalender</a></li>
             <li><a href="logout.php">Abmelden</a></li>
           </ul>
         </div>
@@ -148,6 +148,8 @@
             setlocale(LC_TIME, 'deu_deu');
             $currentTime= time();
             $DateTime = strftime("%d. %B %Y", $currentTime);
+            // Default value for checkbox spotlight
+            $SpotlightToBeUpdated = "true";
             if($_GET["id"]){
               $SearchQueryParameter = $_GET['id'];
               $Query = "SELECT * FROM admin_panel WHERE id = '$SearchQueryParameter';";
@@ -155,9 +157,11 @@
               while($DataRows = mysqli_fetch_array($ExecuteQuery)){
                 $TitleToBeUpdated = $DataRows["title"];
                 $CategoryToBeUpdated = $DataRows["category"];
+                $SpotlightToBeUpdated = $DataRows["important"];
                 $AuthorToBeUpdated = $DataRows["author"];
                 $ImageToBeUpdated = $DataRows["image"];
                 $PostToBeUpdated = $DataRows["post"];
+                $PostDescriptionToBeUpdated = $DataRows["postDescription"];
               }
             }
 
@@ -166,10 +170,11 @@
           ?>
 
           <div class="form-container">
+            <?php if($_GET["delete"]){ echo "Möchtest du den folgenden Post wirklich löschen?";} ?>
             <form id="addNewPostForm"class="" action="postAction.php" method="post" enctype="multipart/form-data">
               <fieldset>
                 <div class="title-container">
-                  <h2><input type="text" name="Title" value="<?php echo $TitleToBeUpdated;?>" id="title" placeholder="Titel" autocomplete="off"required>
+                  <h2><input type="text" name="Title" value="<?php echo $TitleToBeUpdated;?>" id="title" placeholder="Titel" autocomplete="off"required <?php if($_GET["delete"]){ echo "disabled";} ?>>
                   <span class="timestamp"><?php echo htmlentities($DateTime); ?><span></h2>
 
 
@@ -181,52 +186,52 @@
                  <div class="image-container">
                    <img id="uploadPreview" style="border: 1px solid #ddd;" src="Upload/<?php if(!$_GET["id"]){ echo "gsvGemontLogo.jpg"; }else{ echo $ImageToBeUpdated;}  ?>"/><br>
                    <span id="watermark"><span>(Standard)</span></span>
+
                    <!-- <br>
                    <label for="Post">Post:</label><br> -->
                  </div>
                  <label for="imageselect">Banner: </label>
-                 <input type="File" name="Image" id="imageselect" value="<?php echo $ImageToBeUpdated; ?>" onChange="previewImage();"><br>
+                 <input type="File" name="Image" id="imageselect" value="<?php echo $ImageToBeUpdated; ?>" onChange="previewImage();" <?php if($_GET["delete"] == 'true'){ echo "disabled";} ?>><br>
                 <!-- tinyMCE rich text editor that is used to
                 create the posts main content-->
-
+                <textarea id="tinyPostDescription" name="postDescription" rows="8" cols="80" placeholder="Post-Teaser/Beschreibung"><?php echo $PostDescriptionToBeUpdated; ?></textarea><br>
                 <textarea id="tinyPostTextArea" name="Post" rows="20" cols="60">
-
-
                   <?php echo $PostToBeUpdated ?>
                 </textarea>
 
                <div class="author-container">
                  <label for="inputAuthor">geschrieben von</label>
-                 <input type="text" id="inputAuthor" name="author" value="<?php echo $AuthorToBeUpdated ?>" placeholder="Author"><br>
+                 <input type="text" id="inputAuthor" name="author" value="<?php echo $AuthorToBeUpdated ?>" placeholder="Author" <?php if($_GET["delete"]){ echo "disabled";} ?>><br>
                </div>
 
-               <br>
-               <br>
-               <hr>
-               <br>
-               <br>
-               <label for="categoryselect"><span class="FieldInfo ">Kategorie: </span></label>
-               <select class="form-control" id="categoryselect" name="Category">
-                 <?php
-                   $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
-                   $Execute = mysqli_query($Connection, $ViewQuery);
 
-                   while($DataRows = mysqli_fetch_array($Execute)){
-                     $Category = $DataRows["name"];
-                  ?>
-                  <option <?php if($Category == $CategoryToBeUpdated){ echo "selected";} ?>><?php echo $Category; ;?></option>
-                <?php } ?>
-              </select><br>
-              <label for="spotlightCheck" >Spotlight-Artikel? </label>
-              <input id="spotlightCheck" type="checkbox" name="spotlight" checked><br>
+               <div class="additionalInput-container">
+                 <label>Zusätzliche Postinformationen:</label><br>
+                 <label for="categoryselect"><span class="FieldInfo ">Kategorie: </span></label>
+                 <select class="form-control" id="categoryselect" name="Category" <?php if($_GET["delete"]){ echo "disabled";} ?>>
+                   <?php
+                     $ViewQuery = "SELECT * FROM category ORDER BY id DESC";
+                     $Execute = mysqli_query($Connection, $ViewQuery);
 
-               <textarea id="tinyPostDescription" name="postDescription" rows="8" cols="80" placeholder="Post-Teaser/Beschreibung"></textarea><br>
-               <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
+                     while($DataRows = mysqli_fetch_array($Execute)){
+                       $Category = $DataRows["name"];
+                    ?>
+                    <option <?php if($Category == $CategoryToBeUpdated){ echo "selected";} ?>><?php echo $Category; ;?></option>
+                  <?php } ?>
+                </select><br>
+
+                <label for="spotlightCheck" >Soll der Artikel teil des Bild-Sliders auf der Startseite sein? </label>
+                <input id="spotlightCheck" type="checkbox" name="spotlight" <?php if($SpotlightToBeUpdated == 'True'){ echo "checked ";} if($_GET["delete"]){ echo "disabled";} ?>><br>
+               </div>
+
+
+
+               <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" >
                 <!-- submit button -->
-                <input class="btnSubmit" type="submit" name="Submit" value="Posten">
-                <input class="btnSubmit" type="submit" name="Preview" value="Vorschau">
-                <input class="btnSubmit" type="submit" name="saveAsDraft" value="Entwurf speichern">
-                <input class="btnSubmit" type="submit" name="deletePost" value="Post löschen">
+                <input class="btnSubmit <?php if($_GET["delete"]){ echo "hiddenOnDesktop";} ?>" type="submit" name="Submit" value="<?php if($_GET["id"]){ echo "Speichern/Posten  ";}else{ echo "Posten";} ?>">
+                <input class="btnSubmit <?php if($_GET["delete"]){ echo "hiddenOnDesktop";} ?>" type="submit" name="Preview" value="Vorschau">
+                <input class="btnSubmit <?php if($_GET["delete"]){ echo "hiddenOnDesktop";} ?>" type="submit" name="saveAsDraft" value="Als Entwurf speichern">
+                <input class="btnSubmit" type="submit" name="deletePost" value="Löschen">
 
                 <!-- <button class="btnSubmit" name="deletePost" onclick="window.location.href='deletePost.php?Delete=<?php echo $_GET["id"];  ?>'"type="button" name="button"></button> -->
               </fieldset>
@@ -270,22 +275,53 @@
     </script>
     <!-- initiation and config script of the tinyMCE editor -->
     <script>
-      tinymce.init({
-        selector: '#tinyPostTextArea',
-        placeholder: 'Post-Inhalt...',
-        content_css: '/website-repo/Back-End/css/createNewPostD.css',
-        plugins: 'lists image imagetools',
-        menubar: 'edit view insert format',
-        toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | image | removeformat',
-      });
-      tinymce.init({
-        selector: '#tinyPostDescription',
-        placeholder: 'Post-Teaser/Beschreibung...',
-        content_css: '/website-repo/Back-End/css/createNewPostD.css',
-        plugins: 'lists image imagetools',
-        menubar: 'edit view insert format',
-        toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | removeformat',
-      });
+      if(window.location.search.search("delete") != -1){
+
+        tinymce.init({
+          selector: '#tinyPostTextArea',
+          placeholder: 'Post-Teaser/Beschreibung...',
+          content_css: '/website-repo/Back-End/css/createNewPostD.css',
+          plugins: 'lists image imagetools',
+          menubar: 'edit view insert format',
+          toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | removeformat',
+          readonly : true,
+        });
+
+
+        tinymce.init({
+          selector: '#tinyPostDescription',
+          placeholder: 'Post-Teaser/Beschreibung...',
+          content_css: '/website-repo/Back-End/css/createNewPostD.css',
+          plugins: 'lists image imagetools',
+          menubar: 'edit view insert format',
+          toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | removeformat',
+          readonly : true
+        });
+
+
+      }
+      else{
+        tinymce.init({
+          selector: '#tinyPostTextArea',
+          placeholder: 'Post-Inhalt...',
+          content_css: '/website-repo/Back-End/css/createNewPostD.css',
+          plugins: 'lists image imagetools',
+          menubar: 'edit view insert format',
+          toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | image | removeformat',
+        });
+        tinymce.init({
+          selector: '#tinyPostDescription',
+
+          placeholder: 'Post-Teaser/Beschreibung...',
+          content_css: '/website-repo/Back-End/css/createNewPostD.css',
+          plugins: 'lists image imagetools',
+          menubar: 'edit view insert format',
+          toolbar: 'fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | bullist numlist | indent outdent | alignleft aligncenter alignjustify alignright | removeformat',
+
+        });
+      }
+
+
     </script>
 
 

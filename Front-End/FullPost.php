@@ -1,7 +1,8 @@
 <?php require_once('DB.php');?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
-
+<?php require_once('timerscript.php'); ?>
+<?php require_once('../Back-End/include/countingScript.php'); ?>
 <?php
   $PostId = $_GET["id"];
   if(isset($_POST["submit"])){
@@ -11,8 +12,25 @@
     $Comment = mysqli_real_escape_string($Connection,$_POST["comment"]);
 
     $currentTime= time();
-    $DateTime = strftime("%d. %B %Y", $currentTime);
-    $DateTime;
+    $day = strftime("%d", $currentTime);
+    $year = strftime("%Y", $currentTime);
+    $monthnames = array(
+      1=>"Januar",
+      2=>"Februar",
+      3=>"März",
+      4=>"April",
+      5=>"Mai",
+      6=>"Juni",
+      7=>"Juli",
+      8=>"August",
+      9=>"September",
+      10=>"Oktober",
+      11=>"November",
+      12=>"Dezember");
+    $monthNumber = intval(strftime("%m", $currentTime));
+    $monthNameGer = $monthnames[$monthNumber];
+
+    $DateTime = $day.". ".$monthNameGer." ".$year;
 
     if(empty($Name)||empty($Email)||empty($Comment)){
       $_SESSION["ErrorMessage"] = "All fields are required";
@@ -73,7 +91,7 @@
         <?php
           if($_GET["preview"] == 'true'){
             $PostId = $_GET["id"];
-            echo '<form class="" action="../Back-End/deletePost.php?Delete='.$PostId.'" method="post">
+            echo '<form class="" action="../Back-End/createPost.php?id='.$PostId.'" method="post">
               <input type="submit" name="EndPreview" value="Preview Beenden">
             </form>';
           }
@@ -128,7 +146,7 @@
           <!--Container des Timerbanners-->
           <div class="timerbanner">
               <!--Timer im Timerbanner-->
-              <div id="timerdesktop"></div>
+              <div id="timerdesktop"><?php echo gsvAppointmentAlert($Connection); ?></div>
           </div>
 
           <div class="searchbar-container">
@@ -176,6 +194,7 @@
                 $author = $DataRows["author"];
                 $Image = $DataRows["image"];
                 $Post = $DataRows["post"];
+                $PostDescription = $DataRows["postDescription"];
 
              ?>
              <?php echo Message();
@@ -192,6 +211,7 @@
 
 
                 <img class ="thumbnail"src="../Back-End/Upload/<?php echo $Image ?>" alt="">
+                <h4 class="postDescription"> <?php echo $PostDescription; ?></h4>
                  <p class="post">
                    <?php
                     echo nl2br($Post);

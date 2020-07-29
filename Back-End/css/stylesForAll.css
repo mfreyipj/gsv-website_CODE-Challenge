@@ -225,6 +225,7 @@ located on the left of every admin panel page */
   min-width: 20vw;
   border-right: 1px solid #444;
   margin-right: 5vh;
+  min-height: 92vh;
 }
 /* list of the links of the side-nav */
 .side-nav ul{
@@ -267,6 +268,10 @@ located on the left of every admin panel page */
   margin-left: 2vw;
 }
 
+.pageDescription{
+  margin: 2vh 0 2vh 2vw;
+}
+
 /* div - In table-containers the various tables
 of the admin-panel (normally together
 with their headings) are stored */
@@ -286,6 +291,7 @@ table{
   overflow:hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   background-color: #f2f2f2;
+  border: 1px solid #ddd;
 }
 /* table row in which the column names are displayed */
 table thead tr {
@@ -337,6 +343,9 @@ between table-columns */
 .tableCategoryHeadingSpan{
   margin-right: 1vw;
 }
+.tableMessageHeadingSpan{
+  margin-right: 15vw;
+}
 
 
 
@@ -354,7 +363,7 @@ legend{
   margin-bottom: 1vh;
 }
 /* styles for every input field of the admin panel */
-form input{
+form input, form select{
   margin: 1.5vh 0;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -362,7 +371,11 @@ form input{
   color: #444;
   font-size: 1.8vh;
 }
-form input:focus{
+form select{
+  background-color: #fff;
+  margin-left: 0.5vw;
+}
+form input:focus, form select:focus{
   border: 1px solid #999;
   outline:none;
 }
@@ -374,6 +387,7 @@ form input:focus{
   color: #444;
   background-color: #f2f2f2;
   border: none;
+  outline:none;
 }
 .btnSubmit:focus{
   border: 1px solid #777;

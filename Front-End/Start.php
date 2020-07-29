@@ -2,6 +2,7 @@
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
 <?php require_once('../Back-End/html2text/html2text.php'); ?>
+<?php require_once('timerscript.php'); ?>
 <?php
 
   //Search View Query
@@ -136,7 +137,7 @@
         <!--Container des Timerbanners-->
         <div class="timerbanner">
             <!--Timer im Timerbanner-->
-            <div id="timerdesktop"></div>
+            <div id="timerdesktop"><?php echo gsvAppointmentAlert($Connection); ?></div>
         </div>
         <div class="searchbar-container">
           <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">

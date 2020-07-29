@@ -1,4 +1,10 @@
 
+    function showAnswerForm(){
+      var popUpWindow = document.getElementById("answerForm");
+      console.log("POPUP!");
+      popUpWindow.classList.toggle("showMessage");
+    }
+
     /*function that enables the interactive use of the dropdown-button*/
     function dropDownHamburger(){
         var dropdownbtn = document.getElementById("hamburgerButton");

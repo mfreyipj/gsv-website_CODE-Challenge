@@ -1,6 +1,47 @@
 <?php require_once('../Back-End/include/DB.php'); ?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
+<?php require_once('../Back-End/include/mail.php'); ?>
+<?php require_once('timerscript.php'); ?>
+<?php
+
+  if(isset($_POST["subscribe"])){
+    $mailAddress = $_POST["eMail"];
+    echo $mailAddress;
+    $alreadySubscribedQuery = "SELECT * FROM newsletterSubscribers WHERE mailaddress = '$mailAddress'";
+    $execute = mysqli_query($Connection, $alreadySubscribedQuery);
+    if (!$execute) {
+       printf("Error: %s\n", mysqli_error($Connection));
+       exit();
+    }
+    else{
+       if(intval(mysqli_num_rows($execute))===0){
+         $insertMailQuery = "INSERT INTO newsletterSubscribers(mailaddress) VAlUES ('$mailAddress');";
+         $execute = mysqli_query($Connection, $insertMailQuery);
+         if (!$execute) {
+           printf("Error: %s\n", mysqli_error($Connection));
+           exit();
+         }
+         else{
+           $_SESSION["SuccessMessage"] = "Deine Anmeldung war erfolgreich!";
+           $subject = "Newsletter-Anmeldung erfolgreich!";
+           $body = "Du bist nun f&uumlr den GSV-Newsletter angemeldet. Wir freuen uns sehr &uumlber dein Interesse!";
+           sendMail($mailAddress, $subject, $body);
+           echo "mail sent";
+           Redirect_to("newsletter.php");
+         }
+       }
+       else{
+         $_SESSION["ErrorMessage"] = "Du bist schon für den Newsletter angemeldet";
+         Redirect_to("newsletter.php");
+       }
+    }
+
+
+  }
+
+
+?>
 
 <!--Definierung des Dokuments als HTML 5-->
 <!DOCTYPE html>
@@ -99,7 +140,7 @@
         <!--Container des Timerbanners-->
         <div class="timerbanner">
             <!--Timer im Timerbanner-->
-            <div id="timerdesktop"></div>
+            <div id="timerdesktop"><?php echo gsvAppointmentAlert($Connection); ?></div>
         </div>
         <div class="searchbar-container">
           <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">
@@ -127,7 +168,7 @@
       <br class="hiddenOnDesktop">
       <p>Du möchtest mehr über die GSV und unsere Arbeit erfahren? Dann abonniere hier unseren Newsletter und erhalte regelmäßig Informationen zu unserer neuesten Beschlüssen, Projekten und vielem mehr!</p>
       </span>
-      <form action="../Back-End/mailscripts/subcriptionConfirmation.php" class="e-mail-form" method="post">
+      <form action="newsletter.php" class="e-mail-form" method="post">
         <div class="email-box">
           <i class="fas fa-envelope"></i>
           <input type="email" id="e-mail" class="e-mail-form input" name="eMail" value="" placeholder="Deine Email...">

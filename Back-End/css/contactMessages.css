@@ -1,0 +1,76 @@
+
+.mainContent h3{
+  margin-top: 5vh;
+}
+.table-container{
+  margin-top: 2vh;
+}
+.message-container{
+  display: none;
+  position: absolute;
+  width: 33vw;
+  min-height: 33vh;
+  margin: auto;
+  background: tomato;
+  border-radius: 10px;
+  padding-top: 3vh;
+}
+
+.fullMessageHeading{
+  background-color: #fff;
+  display: block;
+  padding: 2vh 1vw;
+  border-radius: 10px;
+  width: 90%;
+  margin: 0 5%;
+
+}
+
+.fullMessage{
+  background-color: #fff;
+  display: block;
+  padding: 2vh 1vw;
+  margin: 0 5%;
+  width: 90%;
+  margin-top: 3vh;
+  border-radius: 10px;
+}
+
+.answer-form{
+  display: none;
+  position: absolute;
+  margin: auto;
+  margin-top: 3vh;
+  width: 90%;
+}
+
+.showMessage{
+  display:block;
+  position: relative;
+}
+.answerTextArea{
+  background-color: #fff;
+  border: none;
+  padding: 2vh 1vw;
+  border-radius: 10px;
+  width: 100%;
+  resize: vertical;
+  outline: none;
+}
+
+.answerSubmit{
+  border-radius: 10px;
+  margin-left: 77%;
+  width: 23%;
+  font-size: 1.35vh;
+}
+.answerButton{
+
+  width: 20%;
+  margin-top: 3vh;
+  border-radius: 10px;
+  margin-left: 75%;
+}
+.answerButton:focus{
+  border:none;
+}

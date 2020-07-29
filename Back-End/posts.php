@@ -16,7 +16,7 @@
     <link rel=stylesheet href="css/stylesForAllMobile.css" media="screen and (min-width: 200px) and (max-width: 1000px)" >
     <link rel="stylesheet" href="css/stylesForAll.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
     <link rel="stylesheet" href="css/messages.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
-    <link rel="stylesheet" href="css/dashboard.css"  media="screen and (min-width: 1000px) and (max-width: 5000px)">
+
   </head>
   <body>
     <!--bookmark to scroll up to-->
@@ -108,13 +108,13 @@
         <ul>
           <li><a href="dashboard.php">Dashboard</a></li>
           <li><a href="posts.php" class="<?php if($_GET["drafts"]){ echo "";} else{ echo "active";}?>">Alle Artikel</a></li>
-          <li><a href="posts.php?drafts=true" class="<?php if($_GET["drafts"]){ echo "active";} else{ echo "";}?>">Alle Entwürfe</a></li>
+          <li><a href="posts.php?drafts=true" class="<?php if($_GET["drafts"]){ echo "active";} else{ echo "";}?>">Entwürfe</a></li>
           <li><a href="createPost.php">Neuer Artikel</a></li>
           <li><a href="categories.php">Post-Kategorien</a></li>
-          <li><a href="#">Kontakt-Inbox</a></li>
+          <li><a href="contactMessages.php">Kontakt-Inbox</a></li>
           <li><a href="admins.php">Admin-Verwaltung</a></li>
-          <li><a href="#">Über Uns</a></li>
-          <li><a href="comments.php">Comments
+          <li><a href="newGSV.php">GSV ankündigen</a></li>
+          <li><a href="comments.php">Kommentare
             <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
             <?php
               $QueryTotal= "SELECT count(*) FROM comments WHERE status = 'OFF'";
@@ -126,7 +126,7 @@
           <span class="count warning"><?php echo $Total;?></span>
         <?php } ?></a>
           </li>
-          <li><a href="../Front-End/calendar.html">Kalender</a></li>
+          <li><a href="../Front-End/calendar.php">Kalender</a></li>
           <li><a href="logout.php">Abmelden</a></li>
         </ul>
       </div>
@@ -257,8 +257,8 @@
 
                     </td>
                     <td><a href="createPost.php?id=<?php echo $Id; ?>"><span class="">Bearbeiten</span> </a></td>
-                    <td><a href="confirmPostDeletion.php?Delete=<?php echo $Id; ?>"><span class="">Löschen</span> </a></td>
-                    <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>" target="_blank"> <span class="">Vorschau</span> </a></td>
+                    <td><a href="createPost.php?id=<?php echo $Id."&delete=true"; ?>"><span class="">Löschen</span> </a></td>
+                    <td><a href="../Front-End/FullPost.php?id=<?php echo $Id; ?>&preview=true" target="_blank"> <span class="">Vorschau</span> </a></td>
                 </tr>
                 <?php } ?>
             </tbody>

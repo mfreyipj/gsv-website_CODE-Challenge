@@ -4,7 +4,6 @@
 session_start();
 
 
-
 function Message(){
   if(isset($_SESSION["ErrorMessage"])){
     $Output="<div class=\"message failure\">";

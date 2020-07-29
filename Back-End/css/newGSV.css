@@ -1,0 +1,9 @@
+.mainContent h3{
+  margin-top: 5vh;
+}
+#day,  #hour, #minutes{
+  width: 3vw;
+}
+#month, #year{
+  width:5vw;
+}

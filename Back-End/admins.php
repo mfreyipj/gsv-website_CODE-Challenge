@@ -144,12 +144,12 @@ if(isset($_POST["submit"])){
           <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="posts.php">Alle Artikel</a></li>
-            <li><a href="posts.php?drafts=true">Alle Entwürfe</a></li>
+            <li><a href="posts.php?drafts=true">Entwürfe</a></li>
             <li><a href="AddNewPost.php">Neuer Artikel</a></li>
             <li><a href="categories.php">Post-Kategorien</a></li>
-            <li><a href="#">Kontakt-Inbox</a></li>
+            <li><a href="contactMessages.php">Kontakt-Inbox</a></li>
             <li><a href="admins.php" class="active">Admin-Verwaltung</a></li>
-            <li><a href="#">Über Uns</a></li>
+            <li><a href="newGSV.php">GSV ankündigen</a></li>
             <li><a href="comments.php">Kommentare
               <!--fetch number of unapproved comments and display it right of the comments hyperlink-->
               <?php
@@ -162,7 +162,7 @@ if(isset($_POST["submit"])){
             <span class="count warning"><?php echo $Total;?></span>
           <?php } ?></a>
             </li>
-            <li><a href="../Front-End/calendar.html">Kalender</a></li>
+            <li><a href="../Front-End/calendar.php">Kalender</a></li>
             <li><a href="logout.php">Abmelden</a></li>
           </ul>
         </div>

@@ -1,7 +1,48 @@
 <?php require_once('../Back-End/include/DB.php'); ?>
 <?php require_once('../Back-End/include/Sessions.php'); ?>
 <?php require_once('../Back-End/include/Functions.php'); ?>
+<?php require_once('timerscript.php'); ?>
+<?php
+if(isset($_POST["sendContactMessage"])){
+    $currentTime= time();
+    $day = strftime("%d", $currentTime);
+    $year = strftime("%Y", $currentTime);
+    $monthnames = array(
+      1=>"Januar",
+      2=>"Februar",
+      3=>"März",
+      4=>"April",
+      5=>"Mai",
+      6=>"Juni",
+      7=>"Juli",
+      8=>"August",
+      9=>"September",
+      10=>"Oktober",
+      11=>"November",
+      12=>"Dezember");
+    $monthNumber = intval(strftime("%m", $currentTime));
+    $monthNameGer = $monthnames[$monthNumber];
 
+    $DateTime = $day.". ".$monthNameGer." ".$year;
+
+    $name = $_POST["name"];
+    $mailAddress = $_POST["email"];
+    $message = $_POST["message"];
+
+    $insertQuery = "INSERT INTO contactMessages(name, datetime, mailAddress, message) VALUES ('$name','$DateTime', '$mailAddress', '$message')";
+    $execute = mysqli_query($Connection, $insertQuery);
+
+    if(!$execute){
+      printf("Error: %s\n", mysqli_error($Connection));
+      exit();
+    }
+    else{
+      $_SESSION["SuccessMessage"] = "Wir haben deine Nachricht erhalten, vielen Dank!";
+  }
+
+}
+
+?>
 
 <!--Definierung des Dokuments als HTML 5-->
 <!DOCTYPE html>
@@ -98,7 +139,7 @@
         <!--Container des Timerbanners-->
         <div class="timerbanner">
             <!--Timer im Timerbanner-->
-            <div id="timerdesktop"></div>
+            <div id="timerdesktop"><?php echo gsvAppointmentAlert($Connection); ?></div>
         </div>
 
         <div class="searchbar-container">
@@ -135,7 +176,7 @@
 
         <br>
 
-        <form class="contact-form" method="post" action="sendMessage.php" >
+        <form class="contact-form" method="post" action="Kontakt.php" >
 
             <input class="form-control" type="text" name="name"  placeholder="Dein Name..." required > <br>
 

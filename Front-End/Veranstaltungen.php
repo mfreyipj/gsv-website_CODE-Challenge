@@ -147,24 +147,7 @@
         <!--Container des Timerbanners-->
         <div class="timerbanner">
             <!--Timer im Timerbanner-->
-            <div id="timerdesktop"><?php
-
-            // function countdownfunction2(int $nDay, string $nMonth, int $nHour, int $nMinute, bool $gsvAppointmentSet){
-            //   if($gsvAppointmentSet){
-            //
-            //     $day = $nDay;
-            //     $month = $nMonth;
-            //     $hour = $nHour;
-            //     $minute = $nMinute;
-            //     $remaining = $date - time();
-            //     $days_remaining = floor($remaining / 86400);
-            //     $hours_remaining = floor(($remaining % 86400) / 3600);
-            //     $alarm = "Die nächste GSV findet am $day. $month um $nHour:$nMinute Uhr statt!";
-            //     return $alarm;
-            //   }
-            // }
-
-            echo countdownfunction2($Connection); ?></div>
+            <div id="timerdesktop"><?php echo gsvAppointmentAlert($Connection); ?></div>
         </div>
         <div class="searchbar-container">
           <form class="searchNavTop" action="Veranstaltungen.php" method="get" id="searchform">

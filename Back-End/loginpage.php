@@ -9,7 +9,7 @@ if(isset($_POST["Submit"])){
   $Password = mysqli_real_escape_string($Connection,$_POST["Password"]);
 
   if(empty($Username)||empty($Password)){
-    $_SESSION["ErrorMessage"] = "All fields must be filled out";
+    $_SESSION["ErrorMessage"] = "Du musst alle Felder ausfüllen!";
     Redirect_to("loginpage.php");
   }
   else{
@@ -17,11 +17,11 @@ if(isset($_POST["Submit"])){
     $_SESSION["User_Id"] = $FoundAccount["id"];
     $_SESSION["Username"] = $FoundAccount["username"];
     if($FoundAccount){
-      $_SESSION["SuccessMessage"] = "Welcome {$_SESSION["Username"]} !";
-      Redirect_to("posts.php");
+      $_SESSION["SuccessMessage"] = "Wilkommen {$_SESSION["Username"]} !";
+      Redirect_to("dashboard.php");
     }
     else{
-      $_SESSION["ErrorMessage"] = "Invalid username/password";
+      $_SESSION["ErrorMessage"] = "Ungültiger Benutzername/Ungültiges Passwort";
       Redirect_to("loginpage.php");
     }
 

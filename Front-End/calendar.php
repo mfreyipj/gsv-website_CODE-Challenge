@@ -1,3 +1,7 @@
+<?php require_once('../Back-End/include/DB.php'); ?>
+<?php require_once('../Back-End/include/Sessions.php'); ?>
+<?php require_once('../Back-End/include/Functions.php'); ?>
+<?php require_once('timerscript.php'); ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -96,7 +100,7 @@
             <!--Container des Timerbanners-->
             <div class="timerbanner">
                 <!--Timer im Timerbanner-->
-                <div id="timerdesktop"></div>
+                <div id="timerdesktop"><?php echo gsvAppointmentAlert($Connection); ?></div>
             </div>
 
             <div class="searchbar-container">
