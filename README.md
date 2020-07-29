@@ -23,7 +23,7 @@ Both of the inventories are located in the folder "Documentation/inventories".
 
 If you want to check out the before and after practically yourself instead of reading the inventories, please feel free to do so.
 
-The link to the user-end of the website that existed before the challenge is http://ipjtestpage.bplaced.net/GSV-Gemont-Webseite/Front-End/Start.php . From this page you will hopefully get on yourself with the user-end. To access the admin panel that existed before the challenge, go to http://ipjtestpage.bplaced.net/GSV-Gemont-Webseite/Back-End/allPosts.php and login with the credentials "guest"(user) and 1234 as password.
+The link to the user-end of the website that existed before the challenge is http://ipjtestpage.bplaced.net/GSV-Gemont-Webseite/Front-End/Start.php . From this page you will hopefully get on yourself with the user-end. To access the admin panel that existed before the challenge, go to http://ipjtestpage.bplaced.net/GSV-Gemont-Webseite/Back-End/dashboard.php and login with the credentials "guest"(user) and 1234 as password.
 
 The link to the user-end of the website of after the challenge is http://gsvtestpage.epizy.com/website-repo/Front-End/Start.php . As with the before challenge website, you you will hopefully get on yourself with the user end from the start page  on. To access the new admin panel, go to http://gsvtestpage.epizy.com/website-repo/Front-End/dashboard.php and login with the same credentials.
 
